@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainWindowButton.qml</file>
+        <file>Images/marerials_icon.png</file>
+        <file>Images/patterns_icon.png</file>
+        <file>Images/projects_icon.png</file>
+        <file>Images/tools_icon.png</file>
     </qresource>
 </RCC>

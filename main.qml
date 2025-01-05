@@ -19,6 +19,7 @@ ApplicationWindow {
                 width: appWindow.width/2 - 2 * parent.spacing
                 height: appWindow.height/4
                 buttonText: qsTr("Проекты")
+                imageSource: "qrc:/Images/projects_icon.png"
                 onClicked: {
                     console.log("buttonProject")
                 }
@@ -29,6 +30,7 @@ ApplicationWindow {
                 width: appWindow.width/2 - 2 * parent.spacing
                 height: appWindow.height/4
                 buttonText: qsTr("Описания и инструкции")
+                imageSource: "qrc:/Images/patterns_icon.png"
                 onClicked: {
                     console.log("buttonPatterns")
                 }
@@ -43,6 +45,7 @@ ApplicationWindow {
                 width: appWindow.width/2 - 2 * parent.spacing
                 height: appWindow.height/4
                 buttonText: qsTr("Материалы")
+                imageSource: "qrc:/Images/marerials_icon.png"
                 onClicked: {
                     console.log("buttonMaterials")
                 }
@@ -53,6 +56,7 @@ ApplicationWindow {
                 width: appWindow.width/2 - 2 * parent.spacing
                 height: appWindow.height/4
                 buttonText: qsTr("Инструменты")
+                imageSource: "qrc:/Images/tools_icon.png"
                 onClicked: {
                     console.log("buttonTools")
                 }

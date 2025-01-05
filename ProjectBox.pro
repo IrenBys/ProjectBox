@@ -22,4 +22,8 @@ ANDROID_ABIS = x86_64
 android: include(C:/Users/User/AppData/Local/Android/Sdk/android_openssl/openssl.pri)
 
 DISTFILES += \
+    Images/marerials_icon.png \
+    Images/patterns_icon.png \
+    Images/projects_icon.png \
+    Images/tools_icon.png \
     MainWindowButton.qml
