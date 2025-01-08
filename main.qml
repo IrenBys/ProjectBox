@@ -7,60 +7,73 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 640
+    color: "#FFF8F5"
 
-    Column {
-        anchors.centerIn: parent
+    property string currentPage: ""
 
-        Row {
-            spacing: 5
+    StackView {
+        id: stackView
+        anchors.fill: parent
+        initialItem: mainMenu
+    }
 
-            MainWindowButton {
-                id: buttonProject
-                width: appWindow.width/2 - 2 * parent.spacing
-                height: appWindow.height/4
-                buttonText: qsTr("Проекты")
-                imageSource: "qrc:/Images/projects_icon.png"
-                onClicked: {
-                    console.log("buttonProject")
+    Component {
+        id: mainMenu
+
+        Item {
+            width: parent.width
+            height: parent.height
+
+            Column {
+                anchors.centerIn: parent
+
+                Row {
+                    spacing: 5
+
+                    MainWindowButton {
+                        id: buttonProject
+                        buttonText: qsTr("Проекты")
+                        imageSource: "qrc:/Images/projects_icon.png"
+                        onClicked: {
+                            console.log("buttonProject")
+                            stackView.push("qrc:/MenuPages/ProjectsPage.qml")
+                        }
+                    }
+
+                    MainWindowButton {
+                        id: buttonPatterns
+                        buttonText: qsTr("Литература")
+                        imageSource: "qrc:/Images/patterns_icon.png"
+                        onClicked: {
+                            console.log("buttonPatterns")
+                        }
+                    }
                 }
-            }
 
-            MainWindowButton {
-                id: buttonPatterns
-                width: appWindow.width/2 - 2 * parent.spacing
-                height: appWindow.height/4
-                buttonText: qsTr("Описания и инструкции")
-                imageSource: "qrc:/Images/patterns_icon.png"
-                onClicked: {
-                    console.log("buttonPatterns")
-                }
-            }
-        }
+                Row {
+                    spacing: 5
 
-        Row {
-            spacing: 5
+                    MainWindowButton {
+                        id: buttonMaterials
+                        buttonText: qsTr("Материалы")
+                        imageSource: "qrc:/Images/materials_icon.png"
+                        onClicked: {
+                            console.log("buttonMaterials")
+                        }
+                    }
 
-            MainWindowButton {
-                id: buttonMaterials
-                width: appWindow.width/2 - 2 * parent.spacing
-                height: appWindow.height/4
-                buttonText: qsTr("Материалы")
-                imageSource: "qrc:/Images/marerials_icon.png"
-                onClicked: {
-                    console.log("buttonMaterials")
-                }
-            }
-
-            MainWindowButton {
-                id: buttonTools
-                width: appWindow.width/2 - 2 * parent.spacing
-                height: appWindow.height/4
-                buttonText: qsTr("Инструменты")
-                imageSource: "qrc:/Images/tools_icon.png"
-                onClicked: {
-                    console.log("buttonTools")
+                    MainWindowButton {
+                        id: buttonTools
+                        buttonText: qsTr("Инструменты")
+                        imageSource: "qrc:/Images/tools_icon.png"
+                        onClicked: {
+                            console.log("buttonTools")
+                        }
+                    }
                 }
             }
         }
     }
+
+
 }

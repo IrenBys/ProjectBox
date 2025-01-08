@@ -23,7 +23,9 @@ android: include(C:/Users/User/AppData/Local/Android/Sdk/android_openssl/openssl
 
 DISTFILES += \
     Images/marerials_icon.png \
+    Images/materials_icon.png \
     Images/patterns_icon.png \
     Images/projects_icon.png \
     Images/tools_icon.png \
-    MainWindowButton.qml
+    MainWindowButton.qml \
+    MenuPages/ProjectPage.qml

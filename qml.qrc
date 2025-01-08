@@ -2,9 +2,16 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainWindowButton.qml</file>
-        <file>Images/marerials_icon.png</file>
         <file>Images/patterns_icon.png</file>
         <file>Images/projects_icon.png</file>
         <file>Images/tools_icon.png</file>
+        <file>MenuPages/PageTemplate.qml</file>
+        <file>MenuPages/ProjectsPage.qml</file>
+        <file>MenuPages/PatternsPage.qml</file>
+        <file>MenuPages/MaterialsPage.qml</file>
+        <file>MenuPages/ToolsPage.qml</file>
+        <file>Images/search_icon.png</file>
+        <file>Images/back_arrow_icon.png</file>
+        <file>Images/materials_icon.png</file>
     </qresource>
 </RCC>
