@@ -25,10 +25,10 @@ Item {
         // Стрелка "Назад"
         Image {
             id: backButton
-            source: "qrc:/Images/back_arrow_icon.png"
             sourceSize.width: 30
             sourceSize.height: 30
             Layout.alignment: Qt.AlignVCenter
+            source: "qrc:/Images/back_arrow_icon.png"
 
             MouseArea {
                 anchors.fill: parent
@@ -58,8 +58,8 @@ Item {
                 // Поле ввода текста
                 TextField {
                     id: searchField
-                    placeholderText: qsTr("Поиск...")
-                    width: parent.width - searchIcon.width
+                    Layout.fillWidth:true
+                    placeholderText: qsTr("Поиск...")                    
                     font.pixelSize: 14
                     background: null
                     // Удаление текста при получении фокуса
@@ -77,6 +77,8 @@ Item {
                     sourceSize.width: 20
                     sourceSize.height: 20
                     Layout.alignment: Qt.AlignVCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
 
                     MouseArea {
                         anchors.fill: parent

@@ -46,6 +46,7 @@ ApplicationWindow {
                         imageSource: "qrc:/Images/patterns_icon.png"
                         onClicked: {
                             console.log("buttonPatterns")
+                            stackView.push("qrc:/MenuPages/PatternsPage.qml")
                         }
                     }
                 }
@@ -59,6 +60,7 @@ ApplicationWindow {
                         imageSource: "qrc:/Images/materials_icon.png"
                         onClicked: {
                             console.log("buttonMaterials")
+                            stackView.push("qrc:/MenuPages/MaterialsPage.qml")
                         }
                     }
 
@@ -68,6 +70,7 @@ ApplicationWindow {
                         imageSource: "qrc:/Images/tools_icon.png"
                         onClicked: {
                             console.log("buttonTools")
+                            stackView.push("qrc:/MenuPages/ToolsPage.qml")
                         }
                     }
                 }

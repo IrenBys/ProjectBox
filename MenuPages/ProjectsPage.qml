@@ -7,6 +7,4 @@ PageTemplate {
     height: 640
 
     searchField: ("Искать проекты...")
-
-
 }
