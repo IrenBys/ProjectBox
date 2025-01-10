@@ -1,6 +1,6 @@
-import QtQuick
-import QtQuick.Controls
-
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts
 
 ApplicationWindow {
     id: appWindow
@@ -8,8 +8,6 @@ ApplicationWindow {
     width: 360
     height: 640
     color: "#FFF8F5"
-
-    property string currentPage: ""
 
     StackView {
         id: stackView
@@ -21,62 +19,56 @@ ApplicationWindow {
         id: mainMenu
 
         Item {
-            width: parent.width
-            height: parent.height
+            anchors.fill: parent
 
-            Column {
+            GridLayout {
                 anchors.centerIn: parent
+                columns: 2  // Два столбца
+                rows: 2
+                columnSpacing: 20
 
-                Row {
-                    spacing: 5
-
-                    MainWindowButton {
-                        id: buttonProject
-                        buttonText: qsTr("Проекты")
-                        imageSource: "qrc:/Images/projects_icon.png"
-                        onClicked: {
-                            console.log("buttonProject")
-                            stackView.push("qrc:/MenuPages/ProjectsPage.qml")
-                        }
-                    }
-
-                    MainWindowButton {
-                        id: buttonPatterns
-                        buttonText: qsTr("Литература")
-                        imageSource: "qrc:/Images/patterns_icon.png"
-                        onClicked: {
-                            console.log("buttonPatterns")
-                            stackView.push("qrc:/MenuPages/PatternsPage.qml")
-                        }
+                MainWindowButton {
+                    id: buttonProject
+                    buttonText: qsTr("Проекты")
+                    imageSource: "qrc:/Images/projects_icon.png"
+                    onClicked: {
+                        console.log("buttonProject")
+                        stackView.push("qrc:/MenuPages/ProjectsPage.qml")
                     }
                 }
 
-                Row {
-                    spacing: 5
-
-                    MainWindowButton {
-                        id: buttonMaterials
-                        buttonText: qsTr("Материалы")
-                        imageSource: "qrc:/Images/materials_icon.png"
-                        onClicked: {
-                            console.log("buttonMaterials")
-                            stackView.push("qrc:/MenuPages/MaterialsPage.qml")
-                        }
+                MainWindowButton {
+                    id: buttonPatterns
+                    buttonText: qsTr("Литература")
+                    imageSource: "qrc:/Images/patterns_icon.png"
+                    onClicked: {
+                        console.log("buttonPatterns")
+                        stackView.push("qrc:/MenuPages/PatternsPage.qml")
                     }
+                }
 
-                    MainWindowButton {
-                        id: buttonTools
-                        buttonText: qsTr("Инструменты")
-                        imageSource: "qrc:/Images/tools_icon.png"
-                        onClicked: {
-                            console.log("buttonTools")
-                            stackView.push("qrc:/MenuPages/ToolsPage.qml")
-                        }
+                MainWindowButton {
+                    id: buttonMaterials
+                    buttonText: qsTr("Материалы")
+                    imageSource: "qrc:/Images/materials_icon.png"
+                    onClicked: {
+                        console.log("buttonMaterials")
+                        stackView.push("qrc:/MenuPages/MaterialsPage.qml")
+                    }
+                }
+
+                MainWindowButton {
+                    id: buttonTools
+                    buttonText: qsTr("Инструменты")
+                    imageSource: "qrc:/Images/tools_icon.png"
+                    onClicked: {
+                        console.log("buttonTools")
+                        stackView.push("qrc:/MenuPages/ToolsPage.qml")
                     }
                 }
             }
+
         }
+
     }
-
-
 }

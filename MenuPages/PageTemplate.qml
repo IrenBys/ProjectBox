@@ -11,6 +11,13 @@ Item {
     property alias searchField: searchField.placeholderText
     property alias pageContent: pageContent
 
+    Rectangle {
+        id: background
+        anchors.fill: parent
+        color: "#FFF8F5" // Цвет фона
+        z: -1 // Помещаем фон позади всех остальных элементов
+    }
+
     // Верхняя панель со стрелкой "Назад" и строкой поиска
     RowLayout {
         id: topBar
@@ -45,7 +52,9 @@ Item {
             width: parent.width - backButton.width - 3 * topBar.spacing // Учитываем стрелку и отступы
             height: 40
             radius: 20
-            color: "#E0E0E0"
+            color: "#FAEEDD"
+            border.color: "#E5D9D0"  // Цвет границы
+            border.width: 1  // Толщина границы
             Layout.fillWidth: true
             anchors.margins: 5
 
@@ -77,8 +86,7 @@ Item {
                     sourceSize.width: 20
                     sourceSize.height: 20
                     Layout.alignment: Qt.AlignVCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
+                    Layout.rightMargin: 10
 
                     MouseArea {
                         anchors.fill: parent
@@ -96,7 +104,6 @@ Item {
     // Основное содержимое страницы
     Flickable {
         id: pageContent
-        anchors.top: topBar.bottom
         anchors.topMargin: 10
         anchors.bottom: parent.bottom
         anchors.left: parent.left

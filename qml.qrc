@@ -13,5 +13,6 @@
         <file>Images/search_icon.png</file>
         <file>Images/back_arrow_icon.png</file>
         <file>Images/materials_icon.png</file>
+        <file>MenuPages/PageButton.qml</file>
     </qresource>
 </RCC>

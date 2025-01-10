@@ -1,11 +1,13 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+
 
 Button {
     id: mainWindowButton
-    width: appWindow.width/2 - 2 * parent.spacing
-    height: appWindow.height/4
-    spacing: parent.spacing
+    Layout.preferredHeight: appWindow.height/4
+    Layout.preferredWidth: appWindow.width/2 - 30
+
 
     property alias buttonText: textButton.text
     property string imageSource: ""
@@ -36,41 +38,34 @@ Button {
         }
     ]
 
-    contentItem: Column {
-        anchors.centerIn: mainWindowButton
-        spacing: mainWindowButton.spacing * 2  // отступы между текстом и изображением
+    contentItem: ColumnLayout {
 
         Label {
             id: textButton
+            Layout.alignment: Qt.AlignHCenter
             text: qsTr("")
             font {
-                pixelSize: 0.125 * parent.height
+                pixelSize: 14
                 weight: Font.Bold
             }
             color: "#022027"
             wrapMode: Text.Wrap
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
         }
 
-        Item {
-            width: mainWindowButton.height * 0.4
-            height: mainWindowButton.height * 0.4
-            anchors.horizontalCenter: parent.horizontalCenter
-            Image {
-                id: buttonIcon
-                source: mainWindowButton.imageSource
-                width: parent.width
-                height: parent.height
-            }
+        Image {
+            Layout.preferredHeight: mainWindowButton.height * 0.4
+            Layout.preferredWidth: mainWindowButton.height * 0.4
+            Layout.alignment: Qt.AlignHCenter
+            id: buttonIcon
+            source: mainWindowButton.imageSource
         }
-
-
     }
 
     background: Rectangle {
         color:  "#FAEEDD"
         radius: 6
+        border.color: "#E5D9D0"  // Цвет границы
+        border.width: 1  // Толщина границы
     }
 
     onClicked: {
