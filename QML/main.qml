@@ -33,7 +33,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/projects_icon.png"
                     onClicked: {
                         console.log("buttonProject")
-                        stackView.push("qrc:/MenuPages/ProjectsPage.qml")
+                        stackView.push("qrc:/QML/MenuPages/ProjectsPage.qml")
                     }
                 }
 
@@ -43,7 +43,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/patterns_icon.png"
                     onClicked: {
                         console.log("buttonPatterns")
-                        stackView.push("qrc:/MenuPages/PatternsPage.qml")
+                        stackView.push("qrc:/QML/MenuPages/PatternsPage.qml")
                     }
                 }
 
@@ -53,7 +53,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/materials_icon.png"
                     onClicked: {
                         console.log("buttonMaterials")
-                        stackView.push("qrc:/MenuPages/MaterialsPage.qml")
+                        stackView.push("qrc:/QML/MenuPages/MaterialsPage.qml")
                     }
                 }
 
@@ -63,7 +63,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/tools_icon.png"
                     onClicked: {
                         console.log("buttonTools")
-                        stackView.push("qrc:/MenuPages/ToolsPage.qml")
+                        stackView.push("qrc:/QML/MenuPages/ToolsPage.qml")
                     }
                 }
             }
