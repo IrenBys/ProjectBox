@@ -43,6 +43,8 @@ DISTFILES += \
     QML/MenuPages/PatternsPage.qml \
     QML/MenuPages/ProjectsPage.qml \
     QML/MenuPages/Subpages/CurrentProject.qml \
+    QML/MenuPages/Subpages/FinishedProjects.qml \
+    QML/MenuPages/Subpages/PlaningProjects.qml \
     QML/MenuPages/ToolsPage.qml \
     QML/main.qml \
     main.qml

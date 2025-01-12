@@ -9,7 +9,7 @@ Item {
 
     // Экспортируем свойства для доступа к placeholderText
     property alias searchField: searchField.placeholderText
-    property alias pageContent: pageContent
+    property alias stackView: pageStack
 
     Rectangle {
         id: background
@@ -40,8 +40,12 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("Назад в главное меню")
-                    root.parent.pop()
+                    if (stackView.depth > 1) {
+                        console.log("Возврат на предыдущую страницу");
+                        stackView.pop();
+                    } else {
+                        console.log("Стек пуст, возвращение невозможно");
+                    }
                 }
             }
         }
@@ -102,14 +106,11 @@ Item {
     }
 
     // Основное содержимое страницы
-    Flickable {
-        id: pageContent
-        anchors.topMargin: 10
+    StackView {
+        id: pageStack
+        anchors.top: topBar.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-
-        contentWidth: width
-        contentHeight: childrenRect.height
     }
 }

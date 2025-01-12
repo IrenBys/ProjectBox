@@ -10,14 +10,13 @@ PageTemplate {
 
     searchField: ("Искать проект...")
 
-    StackView {
-        id: stackView
-        anchors.fill: parent
-        initialItem: pageContent
+    Component.onCompleted: {
+        stackView.push(mainPageContent) // Устанавливаем начальное содержимое StackView
     }
 
+
     Component {
-        id: pageContent
+        id: mainPageContent
 
         Item {
             anchors.fill: parent
