@@ -11,7 +11,7 @@ PageTemplate {
     searchField: ("Искать проект...")
 
     Component.onCompleted: {
-        stackView.push(mainPageContent) // Устанавливаем начальное содержимое StackView
+        pageStack.push(mainPageContent) // Устанавливаем начальное содержимое StackView
     }
 
 
@@ -19,7 +19,9 @@ PageTemplate {
         id: mainPageContent
 
         Item {
-            anchors.fill: parent
+            width: parent.width
+            height: parent.height - 50
+
 
             ColumnLayout {
                 anchors.centerIn: parent
@@ -31,7 +33,7 @@ PageTemplate {
                     buttonText: qsTr("Текущие")
                     onClicked: {
                         console.log("currentProjectButton")
-                        stackView.push("qrc:/QML/MenuPages/Subpages/CurrentProject.qml")
+                        pageStack.push("qrc:/QML/MenuPages/Subpages/CurrentProject.qml")
                     }
                 }
 
@@ -41,7 +43,7 @@ PageTemplate {
                     buttonText: qsTr("Завершенные")
                     onClicked: {
                         console.log("finishedProjectsButton")
-                        stackView.push("qrc:/QML/MenuPages/Subpages/FinishedProjects.qml")
+                        pageStack.push("qrc:/QML/MenuPages/Subpages/FinishedProjects.qml")
                     }
                 }
 
@@ -51,7 +53,7 @@ PageTemplate {
                     buttonText: qsTr("Планируемые")
                     onClicked: {
                         console.log("planningProjectsButton")
-                        stackView.push("qrc:/QML/MenuPages/Subpages/PlaningProjects.qml")
+                        pageStack.push("qrc:/QML/MenuPages/Subpages/PlaningProjects.qml")
                     }
                 }
             }

@@ -6,6 +6,7 @@ Item {
     id: currentProjectPage
     anchors.fill: parent
 
+
     Rectangle {
         id: background
         anchors.fill: parent

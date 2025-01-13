@@ -2,14 +2,19 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import "qrc:/QML"
+
 Item {
-    id: root
+    id: pageTemplate
     width: 360
     height: 640
 
     // Экспортируем свойства для доступа к placeholderText
     property alias searchField: searchField.placeholderText
-    property alias stackView: pageStack
+    property alias pageStack: pageStack
+
+    // Переменная-счётчик
+    property int pageCount: 0
 
     Rectangle {
         id: background
@@ -40,11 +45,13 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if (stackView.depth > 1) {
-                        console.log("Возврат на предыдущую страницу");
-                        stackView.pop();
+                    if (pageStack.depth > 1) {
+                        console.log("Возврат на предыдущую страницу")
+                        pageStack.pop()
+
                     } else {
-                        console.log("Стек пуст, возвращение невозможно");
+                        console.log("Возвращаемся на главную")
+                        appWindow.stackView.pop()
                     }
                 }
             }
@@ -112,5 +119,10 @@ Item {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
+
+        onDepthChanged: {
+            pageCount = depth;
+            console.log("Количество страниц в стеке:", pageCount);
+        }
     }
 }

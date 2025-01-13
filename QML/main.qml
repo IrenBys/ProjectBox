@@ -7,12 +7,19 @@ ApplicationWindow {
     visible: true
     width: 360
     height: 640
-    color: "#FFF8F5"
+
+    property alias stackView: stackView
+    property int mainPageCount : 0
 
     StackView {
         id: stackView
         anchors.fill: parent
         initialItem: mainMenu
+
+        onDepthChanged: {
+            mainPageCount = depth
+            console.log("Количество страниц в стеке mainPageCount :", mainPageCount)
+        }
     }
 
     Component {
@@ -67,8 +74,6 @@ ApplicationWindow {
                     }
                 }
             }
-
         }
-
     }
 }
