@@ -5,9 +5,6 @@ import QtQuick.Layouts
 
 Button {
     id: mainWindowButton
-    Layout.preferredHeight: appWindow.height/4
-    Layout.preferredWidth: appWindow.width/2 - 30
-
 
     property alias buttonText: textButton.text
     property string imageSource: ""

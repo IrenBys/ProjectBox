@@ -14,8 +14,9 @@
         <file>QML/MenuPages/ProjectsPage.qml</file>
         <file>QML/MenuPages/ToolsPage.qml</file>
         <file>QML/main.qml</file>
-        <file>QML/MainWindowButton.qml</file>
         <file>QML/MenuPages/Subpages/FinishedProjects.qml</file>
         <file>QML/MenuPages/Subpages/PlaningProjects.qml</file>
+        <file>QML/Components/MainWindowButton.qml</file>
+        <file>QML/Components/GridComponent.qml</file>
     </qresource>
 </RCC>

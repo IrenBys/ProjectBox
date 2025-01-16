@@ -36,6 +36,8 @@ DISTFILES += \
     MenuPages/ProjectsPage.qml \
     MenuPages/Subpages/CurrentProject.qml \
     MenuPages/ToolsPage.qml \
+    QML/Components/GridComponent.qml \
+    QML/Components/MainWindowButton.qml \
     QML/MainWindowButton.qml \
     QML/MenuPages/MaterialsPage.qml \
     QML/MenuPages/PageButton.qml \
