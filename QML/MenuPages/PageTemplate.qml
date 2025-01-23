@@ -60,7 +60,7 @@ Item {
         // Поле для поиска
         Rectangle {
             id: searchBar
-            width: parent.width - backButton.width - 3 * topBar.spacing // Учитываем стрелку и отступы
+            width: parent.width - backButton.width - /* menuButton.width */ - 2 * topBar.spacing // Учитываем стрелку и отступы
             height: 40
             radius: 20
             color: "#FAEEDD"
@@ -110,6 +110,25 @@ Item {
 
             }
         }
+
+        /*
+        Image {
+            id: menuButton
+            sourceSize.width: 30
+            sourceSize.height: 30
+            Layout.alignment: Qt.AlignVCenter
+            source: "qrc:/Images/add_icon.png"
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+
+                        console.log("Меню")
+
+
+                }
+            }
+        }*/
     }
 
     // Основное содержимое страницы

@@ -1,11 +1,17 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "DatabaseManager.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    // Регистрируем DatabaseManager как Singleton для QML
+    qmlRegisterSingletonInstance<DatabaseManager>("com.example.Database", 1, 0, "DatabaseManager", new DatabaseManager);
+
+
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
     QObject::connect(
         &engine,

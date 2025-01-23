@@ -35,7 +35,7 @@ ApplicationWindow {
 
             GridLayout {
                 anchors.centerIn: parent
-                columns: 2  // Два столбца
+                columns: 2
                 rows: 2
                 columnSpacing: 20
 

@@ -1,6 +1,8 @@
 QT += quick
+QT += sql
 
 SOURCES += \
+        DatabaseManager.cpp \
         main.cpp
 
 resources.files = main.qml 
@@ -22,10 +24,14 @@ ANDROID_ABIS = x86_64
 android: include(C:/Users/User/AppData/Local/Android/Sdk/android_openssl/openssl.pri)
 
 DISTFILES += \
+    Images/add_icon.png \
+    Images/back_arrow_icon.png \
     Images/marerials_icon.png \
     Images/materials_icon.png \
+    Images/menu.png \
     Images/patterns_icon.png \
     Images/projects_icon.png \
+    Images/search_icon.png \
     Images/tools_icon.png \
     MainWindowButton.qml \
     MenuPages/MaterialsPage.qml \
@@ -44,9 +50,12 @@ DISTFILES += \
     QML/MenuPages/PageTemplate.qml \
     QML/MenuPages/PatternsPage.qml \
     QML/MenuPages/ProjectsPage.qml \
-    QML/MenuPages/Subpages/CurrentProject.qml \
+    QML/MenuPages/Subpages/CurrentProjects.qml \
     QML/MenuPages/Subpages/FinishedProjects.qml \
     QML/MenuPages/Subpages/PlaningProjects.qml \
     QML/MenuPages/ToolsPage.qml \
     QML/main.qml \
     main.qml
+
+HEADERS += \
+    DatabaseManager.h

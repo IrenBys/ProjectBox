@@ -28,12 +28,12 @@ PageTemplate {
                 spacing: 10
 
                 PageButton {
-                    id: currentProjectButton
+                    id: currentProjectsButton
                     Layout.alignment: Qt.AlignHCenter
                     buttonText: qsTr("Текущие")
                     onClicked: {
                         console.log("currentProjectButton")
-                        pageStack.push("qrc:/QML/MenuPages/Subpages/CurrentProject.qml")
+                        pageStack.push("qrc:/QML/MenuPages/Subpages/CurrentProjects.qml")
                     }
                 }
 

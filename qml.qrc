@@ -6,7 +6,6 @@
         <file>Images/search_icon.png</file>
         <file>Images/back_arrow_icon.png</file>
         <file>Images/materials_icon.png</file>
-        <file>QML/MenuPages/Subpages/CurrentProject.qml</file>
         <file>QML/MenuPages/MaterialsPage.qml</file>
         <file>QML/MenuPages/PageButton.qml</file>
         <file>QML/MenuPages/PageTemplate.qml</file>
@@ -18,5 +17,8 @@
         <file>QML/MenuPages/Subpages/PlaningProjects.qml</file>
         <file>QML/Components/MainWindowButton.qml</file>
         <file>QML/Components/GridComponent.qml</file>
+        <file>QML/MenuPages/Subpages/CurrentProjects.qml</file>
+        <file>Images/menu.png</file>
+        <file>Images/add_icon.png</file>
     </qresource>
 </RCC>

@@ -1,17 +1,27 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import com.example.Database 1.0
 
 Item {
     id: gridComponent
 
-    property int columns: 2  // Количество колонок в сеткеи
+    property int columns: 3
 
     ListModel {
         id: gridModel
         Component.onCompleted: {
+            // Загружаем проекты из базы данных
+            loadProjectsFromDatabase()
             // Добавляем кнопку "Добавить" в конец модели
             append({ display: qsTr("Добавить") })
+        }
+        // Функция для загрузки проектов из базы данных
+        function loadProjectsFromDatabase() {
+            var projects = DatabaseManager.getProjects();
+            for (var i = 0; i < projects.length; i++) {
+                append({ display: projects[i] });
+            }
         }
     }
 
@@ -92,10 +102,14 @@ Item {
                     text: qsTr("Сохранить")
                     onClicked: {
                         if (itemNameInput.text.trim() !== "") {
-                            // Добавляем новый элемент в модель
-                            gridModel.insert(gridModel.count - 1, { display: itemNameInput.text.trim() })
-                            itemNameInput.text = ""  // Очищаем поле ввода
-                            addItemDialog.close()  // Закрываем Popup
+                            // Вызываем метод C++ для добавления проекта
+                            if (DatabaseManager.addProject(itemNameInput.text.trim())) {
+                                gridModel.insert(gridModel.count - 1, { display: itemNameInput.text.trim() }) // Обновляем UI
+                                itemNameInput.text = "" // Очищаем поле ввода
+                                addItemDialog.close() // Закрываем Popup
+                            } else {
+                                console.log("Ошибка: Не удалось добавить проект в базу данных")
+                            }
                         } else {
                             console.log("Ошибка: Название элемента не может быть пустым")
                         }
