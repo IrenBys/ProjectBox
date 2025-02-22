@@ -15,6 +15,26 @@ ApplicationWindow {
     property int buttonHeight: appWindow.height/4
     property int buttonWidth: appWindow.width/2 - 30
 
+    /*
+    function openPage(page) {
+        console.log("[main.qml]\tOpen page: " + page)
+        stackView.push(page)
+    }
+
+    function closePage() {
+        console.log("[main.qml]\tClose page")
+        if (stackView.depth === 1) {
+            stackView.replace("qrc:/qml/pages/Sale.qml")
+        } else {
+            stackView.pop()
+        }
+    }
+
+    function replacePage(page) {
+        console.log("[main.qml]\tOpen page: " + page)
+        stackView.replace(page)
+    }*/
+
 
     StackView {
         id: stackView

@@ -44,15 +44,15 @@ DISTFILES += \
     MenuPages/ToolsPage.qml \
     QML/Components/GridComponent.qml \
     QML/Components/MainWindowButton.qml \
+    QML/Components/ToolBar.qml \
     QML/MainWindowButton.qml \
     QML/MenuPages/MaterialsPage.qml \
     QML/MenuPages/PageButton.qml \
-    QML/MenuPages/PageTemplate.qml \
     QML/MenuPages/PatternsPage.qml \
     QML/MenuPages/ProjectsPage.qml \
     QML/MenuPages/Subpages/CurrentProjects.qml \
     QML/MenuPages/Subpages/FinishedProjects.qml \
-    QML/MenuPages/Subpages/PlaningProjects.qml \
+    QML/MenuPages/Subpages/PlanningProjects.qml \
     QML/MenuPages/ToolsPage.qml \
     QML/main.qml \
     main.qml

@@ -1,62 +1,57 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Layouts
-import "Subpages"
+import QtQuick.Layouts 1.15
 
-PageTemplate {
+import "Subpages"
+import "qrc:/QML/Components" as AppComponents
+import "qrc:/QML"
+
+Page {
     id: projectsPage
     width: 360
     height: 640
 
-    searchField: ("Искать проект...")
+    background: Rectangle {
+        id: background
+        anchors.fill: parent
+        color: "#FFF8F5"
+        z: -1
+    }
 
-    Component.onCompleted: {
-        pageStack.push(mainPageContent) // Устанавливаем начальное содержимое StackView
+    header: AppComponents.AppToolbar {
+        id: toolbar
+        onBackClicked: {
+            if (appWindow.stackView.depth > 1) {
+                console.log("Возвращаемся назад")
+                appWindow.stackView.pop()
+            } else {
+                console.log("Главная страница")
+                appWindow.stackView.push("qrc:/QML/main.qml")
+                appWindow.stackView.depth === 0
+            }
+        }
     }
 
 
-    Component {
-        id: mainPageContent
+    ColumnLayout {
+        anchors.centerIn: parent
+        anchors.margins: 10
 
-        Item {
-            width: parent.width
-            height: parent.height - 50
-
-
-            ColumnLayout {
-                anchors.centerIn: parent
-                spacing: 10
-
-                PageButton {
-                    id: currentProjectsButton
-                    Layout.alignment: Qt.AlignHCenter
-                    buttonText: qsTr("Текущие")
-                    onClicked: {
-                        console.log("currentProjectButton")
-                        pageStack.push("qrc:/QML/MenuPages/Subpages/CurrentProjects.qml")
-                    }
-                }
-
-                PageButton {
-                    id: finishedProjectsButton
-                    Layout.alignment: Qt.AlignHCenter
-                    buttonText: qsTr("Завершенные")
-                    onClicked: {
-                        console.log("finishedProjectsButton")
-                        pageStack.push("qrc:/QML/MenuPages/Subpages/FinishedProjects.qml")
-                    }
-                }
-
-                PageButton {
-                    id: planningProjectsButton
-                    Layout.alignment: Qt.AlignHCenter
-                    buttonText: qsTr("Планируемые")
-                    onClicked: {
-                        console.log("planningProjectsButton")
-                        pageStack.push("qrc:/QML/MenuPages/Subpages/PlaningProjects.qml")
-                    }
-                }
+        PageButton {
+            buttonText: qsTr("Текущие проекты")
+            onClicked: {
+                stackView.push("qrc:/QML/MenuPages/Subpages/CurrentProjects.qml")
             }
+        }
+
+        PageButton {
+            buttonText: qsTr("Завершенные проекты")
+            onClicked: stackView.push("qrc:/QML/MenuPages/Subpages/FinishedProjects.qml")
+        }
+
+        PageButton {
+            buttonText: qsTr("Планируемые проекты")
+            onClicked: stackView.push("qrc:/QML/MenuPages/Subpages/PlanningProjects.qml")
         }
     }
 }

@@ -3,6 +3,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import com.example.Database 1.0
 
+import "qrc:/QML"
+
 Item {
     id: gridComponent
 
@@ -64,6 +66,7 @@ Item {
                                     addItemDialog.open()  // Открываем Popup для добавления проекта
                                 } else {
                                     console.log("Выбран проект: " + model.display)
+                                    stackView.push("qrc:/QML/MenuPages/Subpages/Project.qml", { projectName: model.display })
                                 }
                             }
                         }
