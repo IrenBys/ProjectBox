@@ -11,14 +11,16 @@ Page {
 
     header: AppComponents.AppToolbar {
         id: toolbar
+        showSearch: false  // Отключаем поиск
+        pageTitle: projectTitle.text  // Передаем заголовок страницы
         onBackClicked: {
             if (appWindow.stackView.depth > 1) {
                 console.log("Возвращаемся назад")
                 appWindow.stackView.pop()
             } else {
                 console.log("Главная страница")
+                appWindow.stackView.clear()  // Очистить стек
                 appWindow.stackView.push("qrc:/QML/main.qml")
-                appWindow.stackView.depth === 0
             }
         }
     }
@@ -32,6 +34,9 @@ Page {
             id: projectTitle
             placeholderText: qsTr("Название проекта")
             text: projectName
+            onTextChanged: {
+                toolbar.pageTitle = text
+            }
         }
 
         TextField {
