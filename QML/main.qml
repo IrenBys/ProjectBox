@@ -5,35 +5,37 @@ import QtQuick.Layouts
 import "qrc:/QML/Components" as AppComponents
 
 ApplicationWindow {
-    id: appWindow
+    id: root
     visible: true
     width: 360
     height: 640
 
     property alias stackView: stackView
     property int mainPageCount : 0
-    property int buttonHeight: appWindow.height/4
-    property int buttonWidth: appWindow.width/2 - 30
+    property int buttonHeight: root.height/4
+    property int buttonWidth: root.width/2 - 30
 
-    /*
+
     function openPage(page) {
         console.log("[main.qml]\tOpen page: " + page)
         stackView.push(page)
     }
 
     function closePage() {
-        console.log("[main.qml]\tClose page")
-        if (stackView.depth === 1) {
-            stackView.replace("qrc:/qml/pages/Sale.qml")
-        } else {
+        console.log("[main.qml]\tClose page: ", stackView.currentItem.objectName)
+        if (stackView.depth > 1) {
             stackView.pop()
+        } else {
+            console.log("Главная страница")
+            stackView.clear()  // Очистить стек
+            stackView.push("qrc:/QML/main.qml")
         }
     }
 
     function replacePage(page) {
         console.log("[main.qml]\tOpen page: " + page)
         stackView.replace(page)
-    }*/
+    }
 
 
     StackView {
@@ -67,7 +69,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/projects_icon.png"
                     onClicked: {
                         console.log("buttonProject")
-                        stackView.push("qrc:/QML/MenuPages/ProjectsPage.qml")
+                        openPage("qrc:/QML/MenuPages/ProjectsPage.qml")
                     }
                 }
 
@@ -79,7 +81,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/patterns_icon.png"
                     onClicked: {
                         console.log("buttonPatterns")
-                        stackView.push("qrc:/QML/MenuPages/PatternsPage.qml")
+                        openPage("qrc:/QML/MenuPages/PatternsPage.qml")
                     }
                 }
 
@@ -91,7 +93,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/materials_icon.png"
                     onClicked: {
                         console.log("buttonMaterials")
-                        stackView.push("qrc:/QML/MenuPages/MaterialsPage.qml")
+                        openPage("qrc:/QML/MenuPages/MaterialsPage.qml")
                     }
                 }
 
@@ -103,7 +105,7 @@ ApplicationWindow {
                     imageSource: "qrc:/Images/tools_icon.png"
                     onClicked: {
                         console.log("buttonTools")
-                        stackView.push("qrc:/QML/MenuPages/ToolsPage.qml")
+                        openPage("qrc:/QML/MenuPages/ToolsPage.qml")
                     }
                 }
             }

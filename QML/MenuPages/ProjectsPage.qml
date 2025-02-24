@@ -10,6 +10,7 @@ Page {
     id: projectsPage
     width: 360
     height: 640
+    objectName: "qrc:/QML/MenuPages/ProjectsPage.qml"
 
     background: Rectangle {
         id: background
@@ -21,14 +22,7 @@ Page {
     header: AppComponents.AppToolbar {
         id: toolbar
         onBackClicked: {
-            if (appWindow.stackView.depth > 1) {
-                console.log("Возвращаемся назад")
-                appWindow.stackView.pop()
-            } else {
-                console.log("Главная страница")
-                appWindow.stackView.push("qrc:/QML/main.qml")
-                appWindow.stackView.depth === 0
-            }
+            root.closePage()
         }
     }
 
@@ -40,18 +34,22 @@ Page {
         PageButton {
             buttonText: qsTr("Текущие проекты")
             onClicked: {
-                stackView.push("qrc:/QML/MenuPages/Subpages/CurrentProjects.qml")
+                root.openPage("qrc:/QML/MenuPages/Subpages/CurrentProjects.qml")
             }
         }
 
         PageButton {
             buttonText: qsTr("Завершенные проекты")
-            onClicked: stackView.push("qrc:/QML/MenuPages/Subpages/FinishedProjects.qml")
+            onClicked: {
+                root.openPage("qrc:/QML/MenuPages/Subpages/FinishedProjects.qml")
+            }
         }
 
         PageButton {
             buttonText: qsTr("Планируемые проекты")
-            onClicked: stackView.push("qrc:/QML/MenuPages/Subpages/PlanningProjects.qml")
+            onClicked: {
+                root.openPage("qrc:/QML/MenuPages/Subpages/PlanningProjects.qml")
+            }
         }
     }
 }

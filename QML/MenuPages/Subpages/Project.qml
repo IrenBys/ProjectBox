@@ -2,26 +2,21 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
-import "qrc:/QML"
+import "qrc:/QML" as MainComponents
 import "qrc:/QML/Components" as AppComponents
 
 Page {
     id: projectPage
+    objectName: "qrc:/QML/MenuPages/Subpages/Project.qml"
+
     property string projectName
 
     header: AppComponents.AppToolbar {
         id: toolbar
-        showSearch: false  // Отключаем поиск
-        pageTitle: projectTitle.text  // Передаем заголовок страницы
+        showSearch: false
+        pageTitle: projectTitle.text
         onBackClicked: {
-            if (appWindow.stackView.depth > 1) {
-                console.log("Возвращаемся назад")
-                appWindow.stackView.pop()
-            } else {
-                console.log("Главная страница")
-                appWindow.stackView.clear()  // Очистить стек
-                appWindow.stackView.push("qrc:/QML/main.qml")
-            }
+            root.closePage()
         }
     }
 
@@ -64,7 +59,7 @@ Page {
             text: "Сохранить"
             onClicked: {
                 console.log("Сохраняем проект: " + projectTitle.text)
-                stackView.pop()
+                root.closePage()
             }
         }
     }

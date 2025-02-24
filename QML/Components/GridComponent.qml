@@ -66,7 +66,8 @@ Item {
                                     addItemDialog.open()  // Открываем Popup для добавления проекта
                                 } else {
                                     console.log("Выбран проект: " + model.display)
-                                    stackView.push("qrc:/QML/MenuPages/Subpages/Project.qml", { projectName: model.display })
+                                    root.openPage("qrc:/QML/MenuPages/Subpages/Project.qml")
+                                    //stackView.push("qrc:/QML/MenuPages/Subpages/Project.qml", { projectName: model.display })
                                 }
                             }
                         }

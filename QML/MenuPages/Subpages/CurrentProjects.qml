@@ -7,6 +7,7 @@ import "qrc:/QML"
 
 Page {
     id: currentProjectsPage
+    objectName: "qrc:/QML/MenuPages/Subpages/CurrentProjects.qml"
 
     background: Rectangle {
         id: background
@@ -18,14 +19,7 @@ Page {
     header: AppComponents.AppToolbar {
         id: toolbar
         onBackClicked: {
-            if (appWindow.stackView.depth > 1) {
-                console.log("Возвращаемся назад")
-                appWindow.stackView.pop()
-            } else {
-                console.log("Главная страница")
-                appWindow.stackView.push("qrc:/QML/main.qml")
-                appWindow.stackView.depth === 0
-            }
+            root.closePage()
         }
     }
 
