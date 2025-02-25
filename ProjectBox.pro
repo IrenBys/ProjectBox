@@ -42,6 +42,8 @@ DISTFILES += \
     MenuPages/ProjectsPage.qml \
     MenuPages/Subpages/CurrentProject.qml \
     MenuPages/ToolsPage.qml \
+    QML/Components/AddItemPopup.qml \
+    QML/Components/AppToolbar.qml \
     QML/Components/GridComponent.qml \
     QML/Components/MainWindowButton.qml \
     QML/Components/ToolBar.qml \

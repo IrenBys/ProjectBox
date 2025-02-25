@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.15
 import com.example.Database 1.0
 
 import "qrc:/QML"
+import "qrc:/QML/Components" as AppComponents
 
 Item {
     id: gridComponent
@@ -47,7 +48,7 @@ Item {
                     model: gridModel
 
                     delegate: Rectangle {
-                        width: gridComponent.width / gridLayout.columns - gridLayout.columnSpacing/2
+                        width: gridComponent.width / gridLayout.columns - gridLayout.columnSpacing * 0.75
                         height: width
                         color:  "#FAEEDD"
                         radius: 6
@@ -63,11 +64,12 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 if (model.display === qsTr("Добавить")) {
-                                    addItemDialog.open()  // Открываем Popup для добавления проекта
+                                    addItemPopup.open()  // Открываем Popup для добавления проекта
                                 } else {
                                     console.log("Выбран проект: " + model.display)
-                                    root.openPage("qrc:/QML/MenuPages/Subpages/Project.qml")
-                                    //stackView.push("qrc:/QML/MenuPages/Subpages/Project.qml", { projectName: model.display })
+                                    //root.openPage("qrc:/QML/MenuPages/Subpages/Project.qml")
+                                    stackView.push("qrc:/QML/MenuPages/Subpages/Project.qml", { projectName: model.display })
+                                    console.log("[main.qml]\tOpen page: qrc:/QML/MenuPages/Subpages/Project.qml")
                                 }
                             }
                         }
@@ -77,48 +79,13 @@ Item {
         }
     }
 
-    // Универсальный Popup для добавления элементов
-    Popup {
-        id: addItemDialog
-        modal: true
-        width: parent.width - 40
-        height: 200
-        focus: true
-
-        Rectangle {
-            anchors.fill: parent
-            radius: 10
-            color: "#FFF"
-            border.color: "#999"
-            border.width: 1
-
-            ColumnLayout {
-                anchors.fill: parent
-                spacing: 10
-
-                TextField {
-                    id: itemNameInput
-                    placeholderText: qsTr("Введите название элемента")
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    text: qsTr("Сохранить")
-                    onClicked: {
-                        if (itemNameInput.text.trim() !== "") {
-                            // Вызываем метод C++ для добавления проекта
-                            if (DatabaseManager.addProject(itemNameInput.text.trim())) {
-                                gridModel.insert(gridModel.count - 1, { display: itemNameInput.text.trim() }) // Обновляем UI
-                                itemNameInput.text = "" // Очищаем поле ввода
-                                addItemDialog.close() // Закрываем Popup
-                            } else {
-                                console.log("Ошибка: Не удалось добавить проект в базу данных")
-                            }
-                        } else {
-                            console.log("Ошибка: Название элемента не может быть пустым")
-                        }
-                    }
-                }
+    AppComponents.AddItemPopup {
+        id: addItemPopup
+        onItemAdded: (itemName) => {
+            if (DatabaseManager.addProject(itemName)) {
+                gridModel.insert(gridModel.count - 1, { display: itemName }) // Обновляем UI
+            } else {
+                console.log("Ошибка: Не удалось добавить проект в базу данных")
             }
         }
     }

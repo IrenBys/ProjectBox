@@ -23,5 +23,6 @@
         <file>QML/Components/AppToolbar.qml</file>
         <file>QML/MenuPages/MainMenu.qml</file>
         <file>QML/MenuPages/MenuPage.qml</file>
+        <file>QML/Components/AddItemPopup.qml</file>
     </qresource>
 </RCC>
