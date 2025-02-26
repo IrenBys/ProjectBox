@@ -24,5 +24,6 @@
         <file>QML/MenuPages/MainMenu.qml</file>
         <file>QML/MenuPages/MenuPage.qml</file>
         <file>QML/Components/AddItemPopup.qml</file>
+        <file>Images/cancel_icon.png</file>
     </qresource>
 </RCC>
