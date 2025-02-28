@@ -37,6 +37,13 @@ ApplicationWindow {
         stackView.replace(page)
     }
 
+    background: Rectangle {
+        id: background
+        anchors.fill: parent
+        color: "#FFF8F5"
+        z: -1
+    }
+
 
     StackView {
         id: stackView
@@ -55,60 +62,18 @@ ApplicationWindow {
         Item {
             anchors.fill: parent
 
-            GridLayout {
-                anchors.centerIn: parent
-                columns: 2
-                rows: 2
-                columnSpacing: 20
 
-                AppComponents.MainWindowButton {
-                    id: buttonProject
-                    Layout.preferredHeight: buttonHeight
-                    Layout.preferredWidth: buttonWidth
-                    buttonText: qsTr("Проекты")
-                    imageSource: "qrc:/Images/projects_icon.png"
-                    onClicked: {
-                        console.log("buttonProject")
-                        openPage("qrc:/QML/MenuPages/ProjectsPage.qml")
-                    }
-                }
-
-                AppComponents.MainWindowButton {
-                    id: buttonPatterns
-                    Layout.preferredHeight: buttonHeight
-                    Layout.preferredWidth: buttonWidth
-                    buttonText: qsTr("Литература")
-                    imageSource: "qrc:/Images/patterns_icon.png"
-                    onClicked: {
-                        console.log("buttonPatterns")
-                        openPage("qrc:/QML/MenuPages/PatternsPage.qml")
-                    }
-                }
-
-                AppComponents.MainWindowButton {
-                    id: buttonMaterials
-                    Layout.preferredHeight: buttonHeight
-                    Layout.preferredWidth: buttonWidth
-                    buttonText: qsTr("Материалы")
-                    imageSource: "qrc:/Images/materials_icon.png"
-                    onClicked: {
-                        console.log("buttonMaterials")
-                        openPage("qrc:/QML/MenuPages/MaterialsPage.qml")
-                    }
-                }
-
-                AppComponents.MainWindowButton {
-                    id: buttonTools
-                    Layout.preferredHeight: buttonHeight
-                    Layout.preferredWidth: buttonWidth
-                    buttonText: qsTr("Инструменты")
-                    imageSource: "qrc:/Images/tools_icon.png"
-                    onClicked: {
-                        console.log("buttonTools")
-                        openPage("qrc:/QML/MenuPages/ToolsPage.qml")
-                    }
-                }
-            }
         }
     }
+
+    AppComponents.AppFooterBar {
+        id: footerBar
+        width: parent.width
+        height: 70
+        anchors.bottom: parent.bottom
+        onPageSelected: openPage(page)  // Переход на выбранную страницу
+    }
+
+
+
 }

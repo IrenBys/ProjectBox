@@ -52,6 +52,7 @@ Popup {
                     }
                 }
             }
+        }
 
         TextField {
             id: itemNameInput
@@ -91,7 +92,6 @@ Popup {
         contentItem: Text {
             text: qsTr("Отменить создание нового проекта?")
             wrapMode: Text.WordWrap
-            padding: 10
         }
 
         onAccepted: {
@@ -104,3 +104,4 @@ Popup {
         }
     }
 }
+

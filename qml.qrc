@@ -25,5 +25,11 @@
         <file>QML/MenuPages/MenuPage.qml</file>
         <file>QML/Components/AddItemPopup.qml</file>
         <file>Images/cancel_icon.png</file>
+        <file>Images/account_icon.png</file>
+        <file>Images/patterns.png</file>
+        <file>Images/projects.png</file>
+        <file>Images/storage.png</file>
+        <file>Images/tools.png</file>
+        <file>QML/Components/AppFooterBar.qml</file>
     </qresource>
 </RCC>
