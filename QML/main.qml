@@ -48,7 +48,7 @@ ApplicationWindow {
     StackView {
         id: stackView
         anchors.fill: parent
-        initialItem: mainMenu
+        initialItem: "qrc:/QML/MenuPages/ProjectsPage.qml"
 
         onDepthChanged: {
             mainPageCount = depth
@@ -73,7 +73,4 @@ ApplicationWindow {
         anchors.bottom: parent.bottom
         onPageSelected: openPage(page)  // Переход на выбранную страницу
     }
-
-
-
 }
