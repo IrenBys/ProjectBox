@@ -9,7 +9,7 @@ import "qrc:/QML/Components" as AppComponents
 Item {
     id: gridComponent
 
-    property int columns: 3
+    property int columns: 2
 
     ListModel {
         id: gridModel
@@ -50,14 +50,20 @@ Item {
                     delegate: Rectangle {
                         width: gridComponent.width / gridLayout.columns - gridLayout.columnSpacing * 0.75
                         height: width
-                        color:  "#FAEEDD"
+                        color:  "#283F23"
                         radius: 6
-                        border.color: "#E5D9D0"
-                        border.width: 1
 
                         Text {
                             anchors.centerIn: parent
                             text: model.display  // Отображаем данные из модели
+                            font {
+                                pixelSize: 18
+                                family: "Roboto"
+                                styleName: "normal"
+                                weight: Font.DemiBold
+                            }
+                            color: "#F5FBF4"
+                            wrapMode: Text.Wrap
                         }
 
                         MouseArea {

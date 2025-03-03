@@ -2,88 +2,89 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import "qrc:/QML"
+
 ToolBar {
     id: appToolbar
-    width: parent.width
-    height: 60
+    width: root.width
+    height: 180
 
-    property alias pageTitle: pageTitle.text  // Заголовок страницы
-    property alias searchText: searchField.text
-    property bool showSearch: true  // По умолчанию показываем строку поиска
-    signal backClicked()  // Сигнал для обработки "Назад"
+    property alias pageTitle: pageTitle.text
+    property alias textTitle: textTitle.text
+    property alias buttonText: appToolbarButton.buttonText
+    property bool showTextTitle: false
+    signal newItemCreated
+    signal searchPerformed(string query)
 
     background: Rectangle {
-        color: "#FAEEDD"
+        anchors.fill: parent
+        color: "#F5FBF4"
+        /*
+        border {
+            color: "#283f23"
+            width: 0.5
+            pixelAligned: false
+        }*/
     }
 
-    RowLayout {
+    ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 10
-        spacing: 10
 
-        // Кнопка "Назад"
-        Image {
-            id: backButton
-            sourceSize.width: 30
-            sourceSize.height: 30
-            Layout.alignment: Qt.AlignVCenter
-            source: "qrc:/Images/back_arrow_icon.png"
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: toolbar.backClicked()
-            }
-        }
-
-        // Заголовок страницы (отображается, если строка поиска скрыта)
         Text {
             id: pageTitle
-            text: "Название страницы"  // По умолчанию текст заголовка
-            font.pixelSize: 16
-            font.bold: true
-            verticalAlignment: Text.AlignVCenter
-            Layout.alignment: Qt.AlignVCenter
-            visible: !appToolbar.showSearch  // Показывать, когда строка поиска скрыта
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.topMargin: 20
+            Layout.leftMargin: 20
+            text: qsTr("")
+            color: "#283F23"
+            font {
+                pixelSize: 24
+                family: "Roboto"
+                styleName: "normal"
+                weight: Font.DemiBold
+            }
+            wrapMode: Text.NoWrap
+            elide: Text.ElideRight
         }
 
-        // Поле поиска
-        Rectangle {
-            id: searchBar
+        Text {
+            id: textTitle
             Layout.fillWidth: true
-            height: 40
-            radius: 20
-            color: "#FFF8F5"
-            border.color: "#E5D9D0"
-            border.width: 1
-            visible: appToolbar.showSearch  // Скрываем, если нужно
+            Layout.fillHeight: true
+            Layout.leftMargin: 20
+            text: qsTr("")
+            color: "#283F23"
+            font {
+                pixelSize: 16
+                family: "Roboto"
+                styleName: "normal"
+                weight: Font.DemiBold
+            }
+            wrapMode: Text.WordWrap
+            elide: Text.ElideNone
+            visible: appToolbar.showTextTitle
+        }
 
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: 5
-                spacing: 5
+        SearchBar {
+            id: searchComponent
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            visible: !appToolbar.showTextTitle
 
-                TextField {
-                    id: searchField
-                    Layout.fillWidth: true
-                    placeholderText: qsTr("Поиск...")
-                    font.pixelSize: 14
-                    background: null
-                }
+            onSearchClicked: function(query) {
+                console.log("Выполняем поиск: " + query);
+                appToolbar.searchPerformed(query);  // Вызываем сигнал поиска
+            }
+        }
 
-                Image {
-                    id: searchIcon
-                    source: "qrc:/Images/search_icon.png"
-                    sourceSize.width: 20
-                    sourceSize.height: 20
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.rightMargin: 10
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: console.log("Поиск: " + searchField.text)
-                    }
-                }
+        PageButton {
+            id: appToolbarButton
+            Layout.alignment: Qt.AlignHCenter
+            buttonText: qsTr("")
+            onClicked: {
+                appToolbar.newItemCreated()
             }
         }
     }
+
 }

@@ -6,19 +6,12 @@ import "qrc:/QML" as MainComponents
 import "qrc:/QML/Components" as AppComponents
 
 Page {
-    id: projectPage
-    objectName: "qrc:/QML/MenuPages/Subpages/Project.qml"
+    id: newProjectPage
+    anchors.fill: parent
+    objectName: "qrc:/QML/MenuPages/Subpages/NewProject.qml"
 
     property string projectName
 
-    header: AppComponents.AppToolbar {
-        id: toolbar
-        showSearch: false
-        pageTitle: projectTitle.text
-        onBackClicked: {
-            root.closePage()
-        }
-    }
 
     ColumnLayout {
         anchors.fill: parent

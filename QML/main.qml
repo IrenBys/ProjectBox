@@ -54,7 +54,10 @@ ApplicationWindow {
             mainPageCount = depth
             console.log("Количество страниц в стеке mainPageCount :", mainPageCount)
         }
+
     }
+
+
 
     Component {
         id: mainMenu
@@ -66,6 +69,8 @@ ApplicationWindow {
         }
     }
 
+
+
     AppComponents.AppFooterBar {
         id: footerBar
         width: parent.width
@@ -74,3 +79,5 @@ ApplicationWindow {
         onPageSelected: openPage(page)  // Переход на выбранную страницу
     }
 }
+
+

@@ -6,10 +6,13 @@ Rectangle {
     id: footer
     width: parent.width
     height: 70
-    color: "#FFF8F5"
-    border.color: "#e5d9d0"
-    border.width: 1
-    //border.top: true
+    color: "#F5FBF4"
+    border {
+        color: "#283f23"
+        width: 0.5
+        pixelAligned: false
+    }
+
 
     property string activePage: "qrc:/QML/MenuPages/ProjectsPage.qml"
 
@@ -21,11 +24,11 @@ Rectangle {
 
         Repeater {
             model: ListModel {
-                ListElement { name: "Проекты"; icon: "qrc:/Images/projects.png"; page: "qrc:/QML/MenuPages/ProjectsPage.qml" }
-                ListElement { name: "Литература"; icon: "qrc:/Images/patterns.png"; page: "qrc:/QML/MenuPages/PatternsPage.qml" }
-                ListElement { name: "Материалы"; icon: "qrc:/Images/storage.png"; page: "qrc:/QML/MenuPages/MaterialsPage.qml" }
-                ListElement { name: "Инструменты"; icon: "qrc:/Images/tools.png"; page: "qrc:/QML/MenuPages/ToolsPage.qml" }
-                ListElement { name: "Профиль"; icon: "qrc:/Images/account_icon.png"; page: "profile" }
+                ListElement { name: "Проекты"; icon: "qrc:/Images/project.png"; page: "qrc:/QML/MenuPages/ProjectsPage.qml" }
+                ListElement { name: "Литература"; icon: "qrc:/Images/pattern.png"; page: "qrc:/QML/MenuPages/PatternsPage.qml" }
+                ListElement { name: "Материалы"; icon: "qrc:/Images/material.png"; page: "qrc:/QML/MenuPages/MaterialsPage.qml" }
+                ListElement { name: "Инструменты"; icon: "qrc:/Images/tool.png"; page: "qrc:/QML/MenuPages/ToolsPage.qml" }
+                ListElement { name: "Профиль"; icon: "qrc:/Images/user.png"; page: "profile" }
             }
 
             delegate: Rectangle {
@@ -41,8 +44,8 @@ Rectangle {
 
                     Image {
                         source: model.icon
-                        width: 28
-                        height: 28
+                        width: 20
+                        height: 20
                         Layout.alignment: Qt.AlignHCenter
                         opacity: isActive ? 1.0 : 0.5
                         Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -50,8 +53,13 @@ Rectangle {
 
                     Text {
                         text: model.name
-                        font.pixelSize: 10
-                        color: "#022027"
+                        font {
+                            pixelSize: 10
+                            family: "Roboto"
+                            styleName: "normal"
+                            weight: Font.DemiBold
+                        }
+                        color: "#283f23"
                         Layout.alignment: Qt.AlignHCenter
                         opacity: isActive ? 1.0 : 0.5
                         Behavior on opacity { NumberAnimation { duration: 150 } }

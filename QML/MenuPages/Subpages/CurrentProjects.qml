@@ -16,12 +16,6 @@ Page {
         z: -1
     }
 
-    header: AppComponents.AppToolbar {
-        id: toolbar
-        onBackClicked: {
-            root.closePage()
-        }
-    }
 
     AppComponents.GridComponent {
         id: currentProjectsGrid

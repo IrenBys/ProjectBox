@@ -47,6 +47,8 @@ DISTFILES += \
     QML/Components/AppToolbar.qml \
     QML/Components/GridComponent.qml \
     QML/Components/MainWindowButton.qml \
+    QML/Components/PageButton.qml \
+    QML/Components/SearchBar.qml \
     QML/Components/ToolBar.qml \
     QML/MainWindowButton.qml \
     QML/MenuPages/MaterialsPage.qml \
@@ -55,6 +57,9 @@ DISTFILES += \
     QML/MenuPages/ProjectsPage.qml \
     QML/MenuPages/Subpages/CurrentProjects.qml \
     QML/MenuPages/Subpages/FinishedProjects.qml \
+    QML/MenuPages/Subpages/NewMaterial.qml \
+    QML/MenuPages/Subpages/NewProject.qml \
+    QML/MenuPages/Subpages/NewTool.qml \
     QML/MenuPages/Subpages/PlanningProjects.qml \
     QML/MenuPages/ToolsPage.qml \
     QML/main.qml \

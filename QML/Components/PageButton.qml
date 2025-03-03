@@ -2,10 +2,12 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import "qrc:/QML"
+
 Button {
     id: pageButton
-    Layout.preferredHeight: 640/10
-    Layout.preferredWidth: 360 - 20
+    Layout.preferredHeight: root.height/10
+    Layout.preferredWidth: root.width - 40
 
 
     property alias buttonText: textButton.text
@@ -41,18 +43,18 @@ Button {
         anchors.centerIn: parent
         text: qsTr("")
         font {
-            pixelSize: 14
-            weight: Font.Bold
+            pixelSize: 18
+            family: "Roboto"
+            styleName: "normal"
+            weight: Font.DemiBold
         }
-        color: "#022027"
+        color: "#F5FBF4"
         wrapMode: Text.Wrap
     }
 
     background: Rectangle {
-        color:  "#FAEEDD"
+        color:  "#202414"
         radius: 6
-        border.color: "#E5D9D0"  // Цвет границы
-        border.width: 1  // Толщина границы
     }
 
     onClicked: {

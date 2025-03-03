@@ -2,54 +2,63 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import "qrc:/QML"
 import "Subpages"
 import "qrc:/QML/Components" as AppComponents
-import "qrc:/QML"
+
 
 Page {
     id: projectsPage
-    width: 360
-    height: 640
-    objectName: "qrc:/QML/MenuPages/ProjectsPage.qml"
+    objectName: "ProjectsPage"
+
+    header: AppComponents.AppToolbar {
+        id: toolBar
+        pageTitle: qsTr("Привет, " + "пользователь" + "!")
+        textTitle: qsTr("Вдохновение рядом – начинайте прямо сейчас!")
+        buttonText: qsTr("+ Добавить новый проект")
+        showTextTitle: true
+        onNewItemCreated: {
+            root.openPage("qrc:/QML/MenuPages/Subpages/NewProject.qml")
+        }
+     }
 
     background: Rectangle {
         id: background
         anchors.fill: parent
-        color: "#FFF8F5"
+        color: "#F5FBF4"
         z: -1
     }
 
-    header: AppComponents.AppToolbar {
-        id: toolbar
-        onBackClicked: {
-            root.closePage()
-        }
-    }
-
-
     ColumnLayout {
         anchors.centerIn: parent
-        anchors.margins: 10
+        spacing: 10
 
-        PageButton {
-            buttonText: qsTr("Текущие проекты")
-            onClicked: {
-                root.openPage("qrc:/QML/MenuPages/Subpages/CurrentProjects.qml")
-            }
+        Image {
+            id: projectIcon
+            Layout.alignment: Qt.AlignHCenter
+            Layout.preferredWidth: root.height * 0.1
+            Layout.preferredHeight: root.height * 0.1
+            source: "qrc:/Images/projects_icon.png"
+            opacity: 0.8
         }
 
-        PageButton {
-            buttonText: qsTr("Завершенные проекты")
-            onClicked: {
-                root.openPage("qrc:/QML/MenuPages/Subpages/FinishedProjects.qml")
+        Text {
+            Layout.preferredWidth: root.width - 40
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignHCenter
+            text: qsTr("Здесь появятся ваши проекты")
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            color: "#283F23"
+            font {
+                pixelSize: 16
+                family: "Roboto"
+                styleName: "normal"
+                weight: Font.DemiBold
             }
-        }
-
-        PageButton {
-            buttonText: qsTr("Планируемые проекты")
-            onClicked: {
-                root.openPage("qrc:/QML/MenuPages/Subpages/PlanningProjects.qml")
-            }
+            wrapMode: Text.WordWrap
+            elide: Text.ElideNone
+            opacity: 0.8
         }
     }
 }
