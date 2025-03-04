@@ -13,7 +13,7 @@ Rectangle {
     signal searchClicked(string searchText)  // Сигнал при нажатии на кнопку поиска
 
     border {
-        color: buttonColor
+        color: textColor
         width: 1
     }
 
@@ -26,7 +26,12 @@ Rectangle {
             id: searchField
             Layout.fillWidth: true
             placeholderText: qsTr("Поиск...")
-            font.pixelSize: 14
+            color: textColor
+            font {
+                pixelSize: 14
+                family: "Roboto"
+                styleName: "normal"
+            }
             background: null
         }
 

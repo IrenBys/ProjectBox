@@ -73,13 +73,10 @@ ApplicationWindow {
         z: -1
     }
 
-
-
-    AppComponents.AppFooterBar {
+    footer: AppComponents.AppFooterBar {
         id: footerBar
         width: parent.width
         height: 70
-        anchors.bottom: parent.bottom
         onPageSelected: openPage(page)  // Переход на выбранную страницу
     }
 }

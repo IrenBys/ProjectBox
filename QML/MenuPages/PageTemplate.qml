@@ -42,8 +42,8 @@ Page {
         Image {
             id: emptyPageImage
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: root.height * 0.1
-            Layout.preferredHeight: root.height * 0.1
+            Layout.preferredWidth: root.height * 0.2
+            Layout.preferredHeight: root.height * 0.2
             source: ""
             opacity: 0.8
         }
