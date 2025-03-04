@@ -53,6 +53,7 @@ DISTFILES += \
     QML/MainWindowButton.qml \
     QML/MenuPages/MaterialsPage.qml \
     QML/MenuPages/PageButton.qml \
+    QML/MenuPages/PageTemplate.qml \
     QML/MenuPages/PatternsPage.qml \
     QML/MenuPages/ProjectsPage.qml \
     QML/MenuPages/Subpages/CurrentProjects.qml \

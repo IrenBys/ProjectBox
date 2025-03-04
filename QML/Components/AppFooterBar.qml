@@ -6,9 +6,9 @@ Rectangle {
     id: footer
     width: parent.width
     height: 70
-    color: "#F5FBF4"
+    color: backgroundColor
     border {
-        color: "#283f23"
+        color: buttonColor
         width: 0.5
         pixelAligned: false
     }
@@ -59,7 +59,7 @@ Rectangle {
                             styleName: "normal"
                             weight: Font.DemiBold
                         }
-                        color: "#283f23"
+                        color: textColor
                         Layout.alignment: Qt.AlignHCenter
                         opacity: isActive ? 1.0 : 0.5
                         Behavior on opacity { NumberAnimation { duration: 150 } }

@@ -10,6 +10,10 @@ ApplicationWindow {
     width: 360
     height: 640
 
+    property string backgroundColor : "#F8F4FB"
+    property string textColor : "#5F3475"
+    property string buttonColor : "#2C2858"
+
     property alias stackView: stackView
     property int mainPageCount : 0
     property int buttonHeight: root.height/4
@@ -37,13 +41,6 @@ ApplicationWindow {
         stackView.replace(page)
     }
 
-    background: Rectangle {
-        id: background
-        anchors.fill: parent
-        color: "#FFF8F5"
-        z: -1
-    }
-
 
     StackView {
         id: stackView
@@ -67,6 +64,13 @@ ApplicationWindow {
 
 
         }
+    }
+
+    background: Rectangle {
+        id: background
+        anchors.fill: parent
+        color: backgroundColor
+        z: -1
     }
 
 

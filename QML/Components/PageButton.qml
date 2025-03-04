@@ -48,12 +48,12 @@ Button {
             styleName: "normal"
             weight: Font.DemiBold
         }
-        color: "#F5FBF4"
+        color: "#F8F4FB"
         wrapMode: Text.Wrap
     }
 
     background: Rectangle {
-        color:  "#202414"
+        color:  "#2C2858"
         radius: 6
     }
 

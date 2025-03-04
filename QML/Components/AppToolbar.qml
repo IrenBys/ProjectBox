@@ -18,13 +18,7 @@ ToolBar {
 
     background: Rectangle {
         anchors.fill: parent
-        color: "#F5FBF4"
-        /*
-        border {
-            color: "#283f23"
-            width: 0.5
-            pixelAligned: false
-        }*/
+        color: backgroundColor
     }
 
     ColumnLayout {
@@ -37,7 +31,7 @@ ToolBar {
             Layout.topMargin: 20
             Layout.leftMargin: 20
             text: qsTr("")
-            color: "#283F23"
+            color: textColor
             font {
                 pixelSize: 24
                 family: "Roboto"
@@ -54,7 +48,7 @@ ToolBar {
             Layout.fillHeight: true
             Layout.leftMargin: 20
             text: qsTr("")
-            color: "#283F23"
+            color: textColor
             font {
                 pixelSize: 16
                 family: "Roboto"

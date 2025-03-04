@@ -7,13 +7,13 @@ Rectangle {
     height: 40
     width: parent.width - 40
     radius: 20
-    color: "#F5FBF4"
+    color: backgroundColor
 
     property alias text: searchField.text  // Свойство для доступа к тексту поиска
     signal searchClicked(string searchText)  // Сигнал при нажатии на кнопку поиска
 
     border {
-        color: "#283F23"
+        color: buttonColor
         width: 1
     }
 
