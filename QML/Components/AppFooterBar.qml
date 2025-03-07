@@ -13,10 +13,16 @@ Rectangle {
         pixelAligned: false
     }
 
-
     property string activePage: "qrc:/QML/MenuPages/ProjectsPage.qml"
-
     signal pageSelected(string page)
+    property alias shouldShowFooter: footer.visible
+
+    function updateActivePage(page) {
+        activePage = page;
+        footer.forceActiveFocus();
+        console.log("[footer] Активная страница:", activePage);
+    }
+
 
     RowLayout {
         anchors.fill: parent

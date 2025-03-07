@@ -5,13 +5,15 @@ import QtQuick.Layouts 1.15
 import "qrc:/QML"
 import "qrc:/QML/Components" as AppComponents
 
-Page {
+SubpageTemplate {
     id: newProjectPage
-    anchors.fill: parent
-    objectName: "qrc:/QML/MenuPages/Subpages/NewProject.qml"
+    //anchors.fill: parent
+    objectName: "NewProject"
+    subpageTitle: "Новый проект"
 
     property string projectName
 
+    /*
 
     ColumnLayout {
         anchors.fill: parent
@@ -48,12 +50,5 @@ Page {
             onClicked: console.log("Открыть галерею или камеру")
         }
 
-        Button {
-            text: "Сохранить"
-            onClicked: {
-                console.log("Сохраняем проект: " + projectTitle.text)
-                root.closePage()
-            }
-        }
-    }
+    }*/
 }

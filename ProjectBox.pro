@@ -62,6 +62,7 @@ DISTFILES += \
     QML/MenuPages/Subpages/NewProject.qml \
     QML/MenuPages/Subpages/NewTool.qml \
     QML/MenuPages/Subpages/PlanningProjects.qml \
+    QML/MenuPages/Subpages/SubpageTemplate.qml \
     QML/MenuPages/ToolsPage.qml \
     QML/main.qml \
     main.qml

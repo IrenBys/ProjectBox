@@ -16,30 +16,52 @@ ApplicationWindow {
 
     property alias stackView: stackView
     property int mainPageCount : 0
-    property int buttonHeight: root.height/4
-    property int buttonWidth: root.width/2 - 30
+    property bool shouldShowFooter: true
 
 
     function openPage(page) {
-        console.log("[main.qml]\tOpen page: " + page)
-        stackView.push(page)
+        console.log("[main.qml]\tOpen page: " + page);
+        stackView.push(page);
+        Qt.callLater(updateFooter);
     }
 
     function closePage() {
-        console.log("[main.qml]\tClose page: ", stackView.currentItem.objectName)
+        console.log("[main.qml] Close page: ", stackView.currentItem ? stackView.currentItem.objectName : "undefined");
+
         if (stackView.depth > 1) {
-            stackView.pop()
+            stackView.pop();
         } else {
-            console.log("Главная страница")
-            stackView.clear()  // Очистить стек
-            stackView.push("qrc:/QML/main.qml")
+            console.log("Главная страница");
+            stackView.clear();
+            stackView.replace("qrc:/QML/MenuPages/ProjectsPage.qml");
         }
+
+        Qt.callLater(updateFooter);
     }
 
     function replacePage(page) {
         console.log("[main.qml]\tOpen page: " + page)
         stackView.replace(page)
     }
+
+    function updateFooter() {
+        if (stackView.currentItem) {
+            console.log("Текущая страница:", stackView.currentItem.objectName);
+
+            let noFooterPages = ["NewProject"];  // Страницы без футера
+            shouldShowFooter = !noFooterPages.includes(stackView.currentItem.objectName);
+
+            console.log("Футер отображается:", shouldShowFooter);
+        } else {
+            shouldShowFooter = true;
+        }
+
+        footerBar.visible = shouldShowFooter;
+        footerBar.height = shouldShowFooter ? 70 : 0; // Скрываем и убираем место
+        footerBar.updateActivePage(stackView.currentItem ? stackView.currentItem.objectName : "");
+    }
+
+
 
 
     StackView {
@@ -48,10 +70,10 @@ ApplicationWindow {
         initialItem: "qrc:/QML/MenuPages/ProjectsPage.qml"
 
         onDepthChanged: {
-            mainPageCount = depth
-            console.log("Количество страниц в стеке mainPageCount :", mainPageCount)
+            mainPageCount = depth;
+            console.log("Количество страниц в стеке mainPageCount :", mainPageCount);
+            updateFooter();
         }
-
     }
 
 
@@ -61,8 +83,6 @@ ApplicationWindow {
 
         Item {
             anchors.fill: parent
-
-
         }
     }
 
@@ -76,9 +96,11 @@ ApplicationWindow {
     footer: AppComponents.AppFooterBar {
         id: footerBar
         width: parent.width
+        visible: shouldShowFooter
         height: 70
-        onPageSelected: openPage(page)  // Переход на выбранную страницу
+        onPageSelected: openPage(page)
     }
+
 }
 
 

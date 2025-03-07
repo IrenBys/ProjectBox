@@ -6,7 +6,7 @@ import "qrc:/QML"
 
 Button {
     id: pageButton
-    Layout.preferredHeight: root.height/10
+    Layout.preferredHeight: 64
     Layout.preferredWidth: root.width - 40
 
 

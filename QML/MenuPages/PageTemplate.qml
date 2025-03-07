@@ -9,6 +9,7 @@ import "qrc:/QML/Components" as AppComponents
 
 Page {
     id: pageTemplate
+
     property alias pageTitle: toolBar.pageTitle
     property alias textTitle: toolBar.textTitle
     property alias buttonText: toolBar.buttonText
@@ -68,4 +69,5 @@ Page {
             opacity: 0.8
         }
     }
+
 }

@@ -21,7 +21,6 @@
         <file>QML/MenuPages/Subpages/NewProject.qml</file>
         <file>QML/Components/AppToolbar.qml</file>
         <file>QML/Components/AddItemPopup.qml</file>
-        <file>Images/cancel_icon.png</file>
         <file>QML/Components/AppFooterBar.qml</file>
         <file>QML/Components/PageButton.qml</file>
         <file>QML/MenuPages/Subpages/NewTool.qml</file>
@@ -33,5 +32,8 @@
         <file>Images/user.png</file>
         <file>QML/Components/SearchBar.qml</file>
         <file>QML/MenuPages/PageTemplate.qml</file>
+        <file>Images/close_icon.png</file>
+        <file>QML/MenuPages/Subpages/SubpageTemplate.qml</file>
+        <file>Images/photo_icon.png</file>
     </qresource>
 </RCC>

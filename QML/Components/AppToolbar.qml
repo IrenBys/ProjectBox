@@ -17,7 +17,6 @@ ToolBar {
     signal searchPerformed(string query)
 
     background: Rectangle {
-        anchors.fill: parent
         color: backgroundColor
     }
 
@@ -80,5 +79,4 @@ ToolBar {
             }
         }
     }
-
 }
