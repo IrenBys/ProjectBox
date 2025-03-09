@@ -77,11 +77,13 @@ Page {
 
             Rectangle {
                 id: photoSelectButton
-                width: root.width - 40
+                width: root.width - 42
                 height: width / 2
                 color: backgroundColor
-                border.color: textColor
-                border.width: 1
+                border {
+                    color: textColor
+                    width: 1
+                }
                 radius: 6
 
 
@@ -112,7 +114,79 @@ Page {
                 }
             }
 
+            Text {
+                topPadding: 20
+                text: qsTr("ЛИТЕРАТУРА")
+                color: textColor
+                font {
+                    pixelSize: 16
+                    family: "Roboto"
+                    styleName: "normal"
+                    weight: Font.DemiBold
+                }
+            }
 
+            Rectangle {
+                width: root.width - 42
+                height: 60
+                color: backgroundColor
+                border {
+                    color: textColor
+                    width: 1
+                }
+                radius: 6
+
+                Text {
+                    anchors.centerIn: parent
+                    text: qsTr("Подключить файл из библиотеки")
+                    color: textColor
+                    font: {
+                        pixelSize: 16
+                        family: "Roboto"
+                        styleName: "normal"
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: console.log("Добавить PDF файл")
+                }
+            }
+
+            Text {
+                topPadding: 20
+                text: qsTr("ОСНОВНАЯ ИНФОРМАЦИЯ")
+                color: textColor
+                font {
+                    pixelSize: 16
+                    family: "Roboto"
+                    styleName: "normal"
+                    weight: Font.DemiBold
+                }
+            }
+
+            Rectangle {
+                width: root.width - 42
+                height: width
+                color: backgroundColor
+                border {
+                    color: textColor
+                    width: 1
+                }
+                radius: 6
+
+
+                ColumnLayout {
+                    anchors.centerIn: parent
+                    spacing: 10
+
+                    AppComponents.ButtonPanel {
+                        anchors.centerIn: parent
+                        width: parent.width
+                        height: 100
+                    }
+                }
+            }
 
 
             AppComponents.PageButton {

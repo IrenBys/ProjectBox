@@ -45,10 +45,12 @@ DISTFILES += \
     QML/Components/AddItemPopup.qml \
     QML/Components/AppFooterBar.qml \
     QML/Components/AppToolbar.qml \
+    QML/Components/ButtonPanel.qml \
     QML/Components/GridComponent.qml \
     QML/Components/MainWindowButton.qml \
     QML/Components/PageButton.qml \
     QML/Components/SearchBar.qml \
+    QML/Components/SubpageButton.qml \
     QML/Components/ToolBar.qml \
     QML/MainWindowButton.qml \
     QML/MenuPages/MaterialsPage.qml \

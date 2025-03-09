@@ -9,9 +9,16 @@ Button {
     Layout.preferredHeight: 64
     Layout.preferredWidth: root.width - 40
 
-
     property alias buttonText: textButton.text
+    property color buttonTextColor: backgroundColor
+    property color pageButtonColor: buttonColor
+
+    // Новые свойства с дефолтными значениями
+    property int fontSize: 18
+    property int fontWeight: Font.DemiBold
+
     signal onClickedSignal
+
     opacity: 1
 
     states: [
@@ -42,18 +49,19 @@ Button {
         id: textButton
         anchors.centerIn: parent
         text: qsTr("")
+
         font {
-            pixelSize: 18
+            pixelSize: pageButton.fontSize   // Используем переменную
             family: "Roboto"
             styleName: "normal"
-            weight: Font.DemiBold
+            weight: pageButton.fontWeight   // Используем переменную
         }
-        color: "#F8F4FB"
+        color: buttonTextColor
         wrapMode: Text.Wrap
     }
 
     background: Rectangle {
-        color:  "#2C2858"
+        color: pageButtonColor
         radius: 6
     }
 
@@ -61,4 +69,5 @@ Button {
         pageButton.onClickedSignal()
     }
 }
+
 

@@ -35,5 +35,7 @@
         <file>Images/close_icon.png</file>
         <file>QML/MenuPages/Subpages/SubpageTemplate.qml</file>
         <file>Images/photo_icon.png</file>
+        <file>QML/Components/SubpageButton.qml</file>
+        <file>QML/Components/ButtonPanel.qml</file>
     </qresource>
 </RCC>
