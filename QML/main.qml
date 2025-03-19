@@ -25,17 +25,16 @@ ApplicationWindow {
         Qt.callLater(updateFooter);
     }
 
+
+
     function closePage() {
         console.log("[main.qml] Close page: ", stackView.currentItem ? stackView.currentItem.objectName : "undefined");
-
-        if (stackView.depth > 1) {
-            stackView.pop();
-        } else {
+        if (stackView.depth === 1) {
             console.log("Главная страница");
-            stackView.clear();
             stackView.replace("qrc:/QML/MenuPages/ProjectsPage.qml");
+        } else {
+            stackView.pop();
         }
-
         Qt.callLater(updateFooter);
     }
 
@@ -45,24 +44,13 @@ ApplicationWindow {
     }
 
     function updateFooter() {
-        if (stackView.currentItem) {
-            console.log("Текущая страница:", stackView.currentItem.objectName);
-
-            let noFooterPages = ["NewProject"];  // Страницы без футера
-            shouldShowFooter = !noFooterPages.includes(stackView.currentItem.objectName);
-
-            console.log("Футер отображается:", shouldShowFooter);
-        } else {
-            shouldShowFooter = true;
+        if (footerBar) {
+            let noFooterPages = ["NewProject"];
+            shouldShowFooter = !noFooterPages.includes(stackView.currentItem ? stackView.currentItem.objectName : "");
+            footerBar.visible = shouldShowFooter;
+            footerBar.height = shouldShowFooter ? 70 : 0;
         }
-
-        footerBar.visible = shouldShowFooter;
-        footerBar.height = shouldShowFooter ? 70 : 0; // Скрываем и убираем место
-        footerBar.updateActivePage(stackView.currentItem ? stackView.currentItem.objectName : "");
     }
-
-
-
 
     StackView {
         id: stackView
@@ -72,11 +60,9 @@ ApplicationWindow {
         onDepthChanged: {
             mainPageCount = depth;
             console.log("Количество страниц в стеке mainPageCount :", mainPageCount);
-            updateFooter();
+
         }
     }
-
-
 
     Component {
         id: mainMenu
@@ -95,12 +81,11 @@ ApplicationWindow {
 
     footer: AppComponents.AppFooterBar {
         id: footerBar
-        width: parent.width
+        width: root.width
         visible: shouldShowFooter
         height: 70
         onPageSelected: openPage(page)
+
     }
 
 }
-
-

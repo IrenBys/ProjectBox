@@ -7,18 +7,14 @@ Rectangle {
     id: button
     width: buttonText.width + 20
     height: buttonText.font.pixelSize + 20
-    color: isActive ? backgroundColor : inactiveColor
+    color: isActive ? "#5F3475" : "#F8F4FB"
     border {
-        color: isActive ? textColor : borderColor
+        color: isActive ? "#F8F4FB" : "#5F3475"
         width: 1
     }
     radius: 6
 
     property alias buttonText: buttonText.text
-    property color textColor: backgroundColor
-    property color backgroundColor: textColor
-    property color inactiveColor: backgroundColor  // Исправлено: теперь просто property
-    property color borderColor: textColor  // Исправлено
     property bool isActive: false
 
     signal buttonClicked(SubpageButton clickedButton)
@@ -35,9 +31,9 @@ Rectangle {
         id: buttonText
         anchors.centerIn: parent
         text: qsTr("")
-        color: isActive ? backgroundColor : textColor
+        color: isActive ? "#F8F4FB" : "#5F3475"
         font {
-            pixelSize: 10
+            pixelSize: 12
             family: "Roboto"
             styleName: "normal"
         }
