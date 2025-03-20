@@ -11,6 +11,9 @@ Item {
 
     property var buttons: []
 
+    // Сигнал, который будет вызываться при изменении выбранной кнопки
+    signal selectedValueChanged(string selectedValue)
+
     function registerButton(button) {
         buttons.push(button)
     }
@@ -21,11 +24,14 @@ Item {
         }
         clickedButton.activate()
         clickedButton.buttonClicked(clickedButton)
+
+        // Вызываем сигнал и передаем текст выбранной кнопки
+        selectedValueChanged(clickedButton.buttonText)
     }
 
     // Панель с тремя кнопками
     RowLayout {
-        anchors.centerIn: parent
+        anchors.left: parent.left
 
         SubpageButton {
             id: btn1
