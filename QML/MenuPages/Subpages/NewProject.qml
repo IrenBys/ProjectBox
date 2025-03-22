@@ -11,10 +11,14 @@ SubpageTemplate {
     subpageTitle: "Новый проект"
 
     property string projectNameText: ""
+    property string projectStatusText: ""
+
     property int pageContentWidth: root.width - 40
     property bool isKeyboardVisible: false
-    property string projectStatus: ""
 
+    function saveProject() {
+        console.log("Проект " + projectName.text + " сохранен в статусе: " + projectStatusText);
+    }
 
     ScrollView {
         id: scrollView
@@ -26,7 +30,9 @@ SubpageTemplate {
             id: pageMouseArea
             anchors.fill: parent
             onClicked: {
-                projectName.focus = false;
+                if (projectName.focus) {
+                    projectName.focus = false;
+                }
             }
         }
 
@@ -59,7 +65,7 @@ SubpageTemplate {
                 placeholderText: (!focus && text.length === 0) ? "Введите название" : ""
                 placeholderTextColor: textColor
                 color: textColor
-                selectByMouse: true
+
                 font {
                     pixelSize: 12
                     family: "Roboto"
@@ -69,16 +75,16 @@ SubpageTemplate {
                 background: Rectangle {
                     color: backgroundColor
                     border {
-                        color: projectName.text.trim() === "" && projectName.focus ? "red" : textColor
+                        color: textColor
                         width: 1
                     }
                     radius: 6
                 }
 
-                onFocusChanged: isKeyboardVisible = focus;
-                onPressed: focus = true;
-
-                onEditingFinished: focus = false
+                onEditingFinished: {
+                    projectNameText = text;
+                    console.log("Финальное имя проекта: " + projectNameText);
+                }
             }
 
             Label {
@@ -98,8 +104,9 @@ SubpageTemplate {
             AppComponents.ButtonPanel {
                 id: projectStatus
                 width: pageContentWidth
-                onSelectedValueChanged: {
-                    projectStatus = selectedValue;
+                onSelectedValueChanged: (selectedValue) => {
+                    console.log("projectStatus === " + selectedValue)
+                    projectStatusText = selectedValue;
                 }
             }
 
@@ -115,17 +122,9 @@ SubpageTemplate {
                     } else {
                         saveProject();
                         closePage();
-                    }
+                   }
                 }
             }
         }
-    }
-
-    function saveProject() {
-        var projectData = {
-            name: projectName.text,
-            status: projectStatus,
-        };
-        console.log("Проект сохранен:", projectData);
     }
 }

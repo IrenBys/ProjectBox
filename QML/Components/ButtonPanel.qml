@@ -38,7 +38,7 @@ Item {
             buttonText: "Текущие"
             Component.onCompleted: buttonPanel.registerButton(this)
             onButtonClicked: {
-                console.log("Кнопка 1 нажата")
+                console.log("selectedValue === Текущие")
             }
             MouseArea {
                 anchors.fill: parent
@@ -51,7 +51,7 @@ Item {
             buttonText: "Планируемые"
             Component.onCompleted: buttonPanel.registerButton(this)
             onButtonClicked: {
-                console.log("Кнопка 2 нажата")
+                console.log("selectedValue === Планируемые")
             }
             MouseArea {
                 anchors.fill: parent
@@ -64,7 +64,7 @@ Item {
             buttonText: "Завершенные"
             Component.onCompleted: buttonPanel.registerButton(this)
             onButtonClicked: {
-                console.log("Кнопка 3 нажата")
+                console.log("selectedValue === Завершенные")
             }
             MouseArea {
                 anchors.fill: parent
