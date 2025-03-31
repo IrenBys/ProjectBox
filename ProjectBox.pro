@@ -3,6 +3,8 @@ QT += sql
 
 SOURCES += \
         DatabaseManager.cpp \
+        DatabaseWorker.cpp \
+        Project.cpp \
         main.cpp
 
 resources.files = main.qml 
@@ -70,4 +72,6 @@ DISTFILES += \
     main.qml
 
 HEADERS += \
-    DatabaseManager.h
+    DatabaseManager.h \
+    DatabaseWorker.h \
+    Project.h
