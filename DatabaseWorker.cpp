@@ -27,6 +27,10 @@ void DatabaseWorker::addProject(const Project &project)
     } else {
         qDebug() << "Проект успешно добавлен.";
     }
+}
 
+QList<Project> DatabaseWorker::getProjects()
+{
+    QList<Project> projects;
 
 }

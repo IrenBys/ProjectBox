@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "DatabaseManager.h"
 #include "DatabaseWorker.h"
 #include "Project.h"
 
@@ -10,10 +11,14 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    Project project;
-    DatabaseWorker dbWorker;
+    DatabaseManager dbManager("projects.db");  // Путь к базе данных
+    // Регистрация DatabaseManager как синглтона в QML
+    qmlRegisterSingletonInstance<DatabaseManager>("com.example.Database", 1, 0, "DatabaseManager", &dbManager);
 
+    Project project;
     engine.rootContext()->setContextProperty("projectModel", &project);
+
+    DatabaseWorker dbWorker;
     engine.rootContext()->setContextProperty("databaseWorker", &dbWorker);
 
 

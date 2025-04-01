@@ -1,102 +1,72 @@
 #include "DatabaseManager.h"
-#include <QDir>               // Для работы с каталогами
+#include <QSqlQuery>
 
-DatabaseManager::DatabaseManager(QObject *parent)
-    : QObject(parent)
+
+// В конструкторе ирициализируем БД
+DatabaseManager::DatabaseManager(const QString &dbPath, QObject *parent) : QObject(parent)
 {
-    if(!initializeDatebase()) {
-        qDebug() << "Не удалось инициализировать БД";
+    db = QSqlDatabase::addDatabase("QSQLITE"); //создаёт новое подключение к базе данных SQLite
+    db.setDatabaseName(dbPath); // устанавливает имя файла БД (он будет создан в корне проекта, если его нет)
+
+    if(!initializeDatabase())
+    {
+        qDebug() << "Ошибка инициализации БД";
     }
 }
 
+//В деструкторе закрываем соединеие БД
 DatabaseManager::~DatabaseManager()
 {
-    if(db.isOpen()) {
+    if(db.isOpen())
+    {
         db.close();
         qDebug() << "Соединение с БД закрыто";
     }
 }
 
-bool DatabaseManager::initializeDatebase()
+bool DatabaseManager::initializeDatabase()
 {
-    // Попробуем удалить старую базу данных, если она существует
-    if (QFile::remove("projects.db")) {
-        qDebug() << "Старая база данных удалена.";
-    } else {
-        qDebug() << "База данных не найдена или не была удалена.";
-    }
 
-    // Указываем, что используем SQLite
-    db = QSqlDatabase::addDatabase("QSQLITE");
-
-    // Задаём путь к файлу базы данных
-    QString dbPath = QDir::currentPath() + "/projects.db";
-    db.setDatabaseName(dbPath); // связывает объект базы данных с этим файлом
-
-    // Пытаемся открыть базу данных
     if(!db.open()) {
-        qDebug() << "Ошибка при открытии БД:" << db.lastError().text();
+        qDebug() << "Ошибка при открытии БД" << db.lastError().text();
         return false;
     }
 
-    // Создаём таблицу "projects", если её ещё нет
-    QSqlQuery query;
+    qDebug() << "База данных успешно открыта: " << db.databaseName();
+
+    // Создание таблицы
+    QSqlQuery query; // класс, который выполняет SQL запросы
+
     QString createTableQuery = R"(
         CREATE TABLE IF NOT EXISTS projects (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE
+            name TEXT NOT NULL UNIQUE,
+            status TEXT NOT NULL
         )
     )";
 
-    if(!query.exec(createTableQuery)) {
-        qDebug() << "Ошибка при создании таблицы:" << query.lastError().text();
+    /* id       INTEGER PRIMARY KEY AUTOINCREMENT   Уникальный ID проекта, автоувеличивается
+     * name     TEXT NOT NULL UNIQUE                Название проекта, уникальное
+     * status   TEXT NOT NULL                       Статус проекта
+    */
+
+
+    // Выполнение SQL-запроса  на создание таблицы
+    if(!query.exec(createTableQuery))
+    {
+        qDebug() << "Ошибка создания таблицы: " << query.lastError().text();
         return false;
     }
 
-    qDebug() << "База данных создана по пути:" << dbPath;
+    qDebug() << "Таблица 'projects' проверена/создана";
     return true;
 }
 
-
-bool DatabaseManager::addProject(const QString &projectName)
+QSqlDatabase& DatabaseManager::getDatabase()
 {
-    QSqlQuery query;
-    query.prepare("INSERT INTO projects (name) VALUES (:name)");
-    query.bindValue(":name", projectName);
-
-    if (!query.exec()) {
-        qDebug() << "Ошибка при добавлении проекта:" << query.lastError().text();
-        return false;
-    }
-
-    qDebug() << "Проект успешно добавлен:" << projectName;
-    return true;
+    return db;
 }
 
-QStringList DatabaseManager::getProjects()
-{
-    QStringList projects;
 
-    if(!db.isOpen()) {
-        qDebug() << "БД не открыта";
-        return projects;
-    }
 
-    // Пишем SQL-запрос для получения всех проектов
-    QSqlQuery query;
-    query.prepare("SELECT name FROM projects");
-
-    if (query.exec()) {
-        while (query.next()) {
-            // Получаем название проекта и добавляем в список
-            QString projectName = query.value(0).toString();
-            projects.append(projectName);
-        }
-    } else {
-        qDebug() << "Ошибка при получении проектов:" << query.lastError().text();
-    }
-
-    qDebug() << "Загружено проектов:" << projects.size();
-    return projects;
-}
 

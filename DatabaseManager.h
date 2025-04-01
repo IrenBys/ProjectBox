@@ -2,10 +2,9 @@
 #define DATABASEMANAGER_H
 
 #include <QObject>
-#include <QDebug>
 #include <QSqlDatabase>
-#include <QThread>
-#include "DatabaseWorker.h"
+#include <QSqlError>
+#include <QDebug>
 
 
 class DatabaseManager : public QObject
@@ -13,22 +12,14 @@ class DatabaseManager : public QObject
     Q_OBJECT
 
 public:
-
-    explicit DatabaseManager(QObject *parent = nullptr);
+    explicit DatabaseManager(const QString& dbPath, QObject *parent = nullptr);
     ~DatabaseManager();
 
-    Q_INVOKABLE void addProject(const QString &projectName);
-    Q_INVOKABLE void loadProjects();
-
-signals:
-    void requestAddProject(const QString &projectName);
-    void requestLoadProjects();
-    void projectAdded(bool success);
-    void projectsLoaded(QStringList projects);
+    QSqlDatabase& getDatabase(); // Передает соединение с БД
 
 private:
-    QThread dbThread;
-    DatabaseWorker *dbWorker;
+    QSqlDatabase db;
+    bool initializeDatabase();
 };
 
 #endif // DATABASEMANAGER_H

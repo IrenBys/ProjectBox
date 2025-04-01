@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QObject>
+//#include <QList>
 #include "Project.h"
 
 
@@ -14,6 +15,7 @@ public:
     ~DatabaseWorker();
 
     Q_INVOKABLE void addProject(const Project &project);
+    Q_INVOKABLE QList<Project> getProjects();
 
 
 };
