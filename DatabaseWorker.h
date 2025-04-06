@@ -3,7 +3,7 @@
 
 #include <QDebug>
 #include <QObject>
-//#include <QList>
+#include <QThread>
 #include "Project.h"
 
 
