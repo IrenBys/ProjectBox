@@ -1,50 +1,26 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
-#include <QObject>
 #include <QString>
+#include <QDebug>
 
-class Project : public QObject
+class Project
 {
-    Q_OBJECT
-    Q_PROPERTY(QString name READ getProjectName WRITE setProjectName NOTIFY projectNameChanged)
-    Q_PROPERTY(QString status READ getProjectStatus WRITE setProjectStatus NOTIFY projectStatusChanged)
-
-
 public:
-    Project(QObject *parent = nullptr) :
-        QObject(parent),
-        projectName(""),
-        projectStatus("")
-    {};
-    virtual ~Project() {};
+    Project() = default;
+    Project(const QString &name, const QString &status)
+        : projectName(name), projectStatus(status) {}
 
-    QString getProjectName () const { return projectName; };
-    QString getProjectStatus () const { return projectStatus; };
+    QString getProjectName() const { return projectName; }
+    QString getProjectStatus() const { return projectStatus; }
 
-    void setProjectName (const QString &newProjectName) {
-        if(projectName != newProjectName) {
-            projectName = newProjectName;
-            emit projectNameChanged();
-        }
-    }
-
-    void setProjectStatus (const QString &newProjectStatus) {
-        if(projectStatus != newProjectStatus) {
-            projectStatus = newProjectStatus;
-            emit projectStatusChanged();
-        }
-    }
-
-signals:
-    void projectNameChanged();
-    void projectStatusChanged();
+    void setProjectName(const QString &newProjectName) { projectName = newProjectName; }
+    void setProjectStatus(const QString &newProjectStatus) { projectStatus = newProjectStatus; }
 
 private:
     QString projectName;
     QString projectStatus;
-
 };
 
-
 #endif // PROJECT_H
+

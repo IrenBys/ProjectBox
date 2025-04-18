@@ -5,6 +5,8 @@ import QtQuick.Layouts
 import "qrc:/QML"
 import "qrc:/QML/Components" as AppComponents
 
+import com.example.Database
+
 SubpageTemplate {
     id: newProjectPage
     objectName: "NewProject"
@@ -18,6 +20,7 @@ SubpageTemplate {
 
     function saveProject() {
         console.log("Проект " + projectName.text + " сохранен в статусе: " + projectStatusText);
+        DatabaseManager.addProject(projectName.text, projectStatusText)
     }
 
     ScrollView {

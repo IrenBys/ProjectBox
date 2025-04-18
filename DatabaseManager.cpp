@@ -2,70 +2,62 @@
 #include <QSqlQuery>
 
 
-// В конструкторе ирициализируем БД
-DatabaseManager::DatabaseManager(const QString &dbPath, QObject *parent) : QObject(parent)
-{
-    db = QSqlDatabase::addDatabase("QSQLITE"); //создаёт новое подключение к базе данных SQLite
-    db.setDatabaseName(dbPath); // устанавливает имя файла БД (он будет создан в корне проекта, если его нет)
 
-    if(!initializeDatabase())
-    {
-        qDebug() << "Ошибка инициализации БД";
-    }
+// В конструкторе ирициализируем БД
+DatabaseManager::DatabaseManager(const QString &dbPath, QObject *parent)
+    : QObject(parent),
+    worker(nullptr)
+{
+
+
+    // Создаем воркера и подключаем его к потоку
+    worker = new DatabaseWorker(dbPath);;
+    worker->moveToThread(&workerThread);
+
+    // Подключаем сигналы и слоты
+
+    connect(&workerThread, &QThread::started, worker, &DatabaseWorker::init);
+
+    connect(this, &DatabaseManager::requestAddProject, worker, &DatabaseWorker::addProject);
+    //connect(this, &DatabaseManager::requestLoadProjects, worker, &DatabaseWorker::getProjects);
+
+    connect(worker, &DatabaseWorker::projectAdded, this, &DatabaseManager::projectAdded);
+    //connect(worker, &DatabaseWorker::projectsReady, this, &DatabaseManager::projectsReady);
+    connect(worker, &DatabaseWorker::errorOccurred, this, &DatabaseManager::errorOccurred);
+
+    // Запускаем поток
+    workerThread.start();
 }
 
 //В деструкторе закрываем соединеие БД
 DatabaseManager::~DatabaseManager()
 {
-    if(db.isOpen())
-    {
-        db.close();
-        qDebug() << "Соединение с БД закрыто";
-    }
+    // Завершаем работу потока и удаляем воркер
+    workerThread.quit();
+    workerThread.wait();
+    worker->deleteLater();
 }
 
-bool DatabaseManager::initializeDatabase()
+void DatabaseManager::addProject(const QString &name, const QString &status)
 {
+    qDebug() << "Создаем Project внутри DatabaseManager";
 
-    if(!db.open()) {
-        qDebug() << "Ошибка при открытии БД" << db.lastError().text();
-        return false;
-    }
+    // Создаём Project
+    Project project;
+    project.setProjectName(name);
+    project.setProjectStatus(status);
 
-    qDebug() << "База данных успешно открыта: " << db.databaseName();
-
-    // Создание таблицы
-    QSqlQuery query; // класс, который выполняет SQL запросы
-
-    QString createTableQuery = R"(
-        CREATE TABLE IF NOT EXISTS projects (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE,
-            status TEXT NOT NULL
-        )
-    )";
-
-    /* id       INTEGER PRIMARY KEY AUTOINCREMENT   Уникальный ID проекта, автоувеличивается
-     * name     TEXT NOT NULL UNIQUE                Название проекта, уникальное
-     * status   TEXT NOT NULL                       Статус проекта
-    */
-
-
-    // Выполнение SQL-запроса  на создание таблицы
-    if(!query.exec(createTableQuery))
-    {
-        qDebug() << "Ошибка создания таблицы: " << query.lastError().text();
-        return false;
-    }
-
-    qDebug() << "Таблица 'projects' проверена/создана";
-    return true;
+    // Отправляем во внешний мир (например, в DatabaseWorker)
+    emit requestAddProject(project);
 }
 
-QSqlDatabase& DatabaseManager::getDatabase()
+/*
+void DatabaseManager::loadProjects()
 {
-    return db;
-}
+    emit requestLoadProjects();
+}*/
+
+
 
 
 
