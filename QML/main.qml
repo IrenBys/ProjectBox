@@ -1,8 +1,10 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts
+import com.example.Database 1.0
 
 import "qrc:/QML/Components" as AppComponents
+
 
 ApplicationWindow {
     id: root
@@ -19,9 +21,10 @@ ApplicationWindow {
     property bool shouldShowFooter: true
 
 
-    function openPage(page) {
+    function openPage(page, props) {
         console.log("[main.qml]\tOpen page: " + page);
-        stackView.push(page);
+
+        stackView.push(page, props);  // передаем параметры
         Qt.callLater(updateFooter);
     }
 
@@ -45,7 +48,7 @@ ApplicationWindow {
 
     function updateFooter() {
         if (footerBar) {
-            let noFooterPages = ["NewProject"];
+            let noFooterPages = ["NewProject", "EditProject"];
             shouldShowFooter = !noFooterPages.includes(stackView.currentItem ? stackView.currentItem.objectName : "");
             footerBar.visible = shouldShowFooter;
             footerBar.height = shouldShowFooter ? 70 : 0;
@@ -61,6 +64,10 @@ ApplicationWindow {
             mainPageCount = depth;
             console.log("Количество страниц в стеке mainPageCount :", mainPageCount);
 
+        }
+
+        onCurrentItemChanged: {
+            console.log("[main.qml] Текущая страница изменилась:", currentItem)
         }
     }
 

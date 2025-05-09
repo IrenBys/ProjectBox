@@ -7,15 +7,17 @@ import "qrc:/QML/Components" as AppComponents
 
 Page {
     id:subpageTemplate
-
-    property alias subpageTitle: subpageTitle.text
-
     background: Rectangle {
         id: background
         anchors.fill: parent
         color: backgroundColor
         z: -1
     }
+
+    property alias subpageTitle: subpageTitle.text
+    // Свойства для управления видимостью кнопок
+    property bool showMenuButton: false
+
 
     header: ToolBar {
         height: 70
@@ -56,8 +58,22 @@ Page {
                     weight: Font.DemiBold
                 }
             }
+
+            Image {
+                id: editPageImage
+                Layout.alignment: Qt.AlignVCenter
+                Layout.rightMargin: 20
+                visible: showMenuButton
+                source: "qrc:/Images/menu.png"
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("editPageImage clicked")
+                        menuButtonClicked()
+                    }
+                }
+            }
         }
-    }
-
-
+    }    
 }

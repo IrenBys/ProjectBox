@@ -37,5 +37,8 @@
         <file>Images/photo_icon.png</file>
         <file>QML/Components/SubpageButton.qml</file>
         <file>QML/Components/ButtonPanel.qml</file>
+        <file>QML/MenuPages/Subpages/EditProject.qml</file>
+        <file>QML/Components/ConfirmPopup.qml</file>
+        <file>QML/Components/ProjectOptionsMenu.qml</file>
     </qresource>
 </RCC>

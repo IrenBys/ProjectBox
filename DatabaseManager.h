@@ -22,22 +22,23 @@ public:
 
     // Методы для взаимодействия с воркером
     Q_INVOKABLE void addProject(const QString &name, const QString &status);
-    //Q_INVOKABLE void loadProjects();
+    Q_INVOKABLE void loadProjects();
 
 signals:
     void requestAddProject(const Project &project);
-    //void requestLoadProjects();
+    void requestLoadProjects();
 
     // Проброс сигналов от воркера наружу
     void projectAdded(bool success, const QString& message);
-    //void projectsReady(const QList<Project>& projects);
+    void projectsReady(const QList<Project>& projects);
     void errorOccurred(const QString& errorMessage);
+    void projectsReadyForQml(const QVariantList &projects);  // Новый для QML
 
-
-
+private slots:
+    void onDatabaseInitialized();
+    void onProjectsReady(const QList<Project> &projects); // <-- слот для приёма данных
 
 private:
-
     QThread workerThread;
     DatabaseWorker* worker = nullptr;
 

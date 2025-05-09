@@ -12,15 +12,31 @@ SubpageTemplate {
     objectName: "NewProject"
     subpageTitle: "Новый проект"
 
-    property string projectNameText: ""
-    property string projectStatusText: ""
+    property string projectId: ""
+    property string initialProjectName: ""
+    property string initialProjectStatus: ""
 
+    Component.onCompleted: {
+        if (initialProjectName !== "") {
+            projectName.text = initialProjectName
+        }
+
+        if (initialProjectStatus !== "") {
+            projectStatus.selectedStatus = initialProjectStatus
+        }
+
+        console.log("NewProject.qml: параметры загружены", projectId, initialProjectName, initialProjectStatus)
+    }
+
+    property string projectNameText: ""
     property int pageContentWidth: root.width - 40
-    property bool isKeyboardVisible: false
 
     function saveProject() {
-        console.log("Проект " + projectName.text + " сохранен в статусе: " + projectStatusText);
-        DatabaseManager.addProject(projectName.text, projectStatusText)
+        const name = projectName.text.trim()
+        const status = projectStatus.selectedStatus
+
+        console.log("Проект " + name + " сохранен в статусе: " + status)
+        DatabaseManager.addProject(name, status)
     }
 
     ScrollView {
@@ -34,7 +50,7 @@ SubpageTemplate {
             anchors.fill: parent
             onClicked: {
                 if (projectName.focus) {
-                    projectName.focus = false;
+                    projectName.focus = false
                 }
             }
         }
@@ -51,12 +67,9 @@ SubpageTemplate {
                 width: pageContentWidth
                 text: "Название"
                 color: textColor
-                font {
-                    pixelSize: 12
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.DemiBold
-                }
+                font.pixelSize: 12
+                font.family: "Roboto"
+                font.weight: Font.DemiBold
                 elide: "ElideRight"
             }
 
@@ -69,24 +82,19 @@ SubpageTemplate {
                 placeholderTextColor: textColor
                 color: textColor
 
-                font {
-                    pixelSize: 12
-                    family: "Roboto"
-                    styleName: "normal"
-                }
+                font.pixelSize: 12
+                font.family: "Roboto"
 
                 background: Rectangle {
                     color: backgroundColor
-                    border {
-                        color: textColor
-                        width: 1
-                    }
+                    border.color: textColor
+                    border.width: 1
                     radius: 6
                 }
 
                 onEditingFinished: {
-                    projectNameText = text;
-                    console.log("Финальное имя проекта: " + projectNameText);
+                    projectNameText = text.trim()
+                    console.log("Финальное имя проекта: " + projectNameText)
                 }
             }
 
@@ -95,21 +103,18 @@ SubpageTemplate {
                 width: pageContentWidth
                 text: "Статус"
                 color: textColor
-                font {
-                    pixelSize: 12
-                    family: "Roboto"
-                    styleName: "normal"
-                    weight: Font.DemiBold
-                }
+                font.pixelSize: 12
+                font.family: "Roboto"
+                font.weight: Font.DemiBold
                 elide: "ElideRight"
             }
 
             AppComponents.ButtonPanel {
                 id: projectStatus
                 width: pageContentWidth
+
                 onSelectedValueChanged: (selectedValue) => {
-                    console.log("projectStatus === " + selectedValue)
-                    projectStatusText = selectedValue;
+                    console.log("Выбран статус: " + selectedValue)
                 }
             }
 
@@ -118,14 +123,20 @@ SubpageTemplate {
                 height: 64
                 width: pageContentWidth
                 buttonText: qsTr("СОХРАНИТЬ")
+
                 onClicked: {
-                    if (projectName.text.trim() === "") {
-                        console.log("Ошибка: Название проекта не может быть пустым");
-                        projectName.background.border.color = "red";
+                    const name = projectName.text.trim()
+                    const status = projectStatus.selectedStatus
+
+                    if (name === "") {
+                        console.log("Ошибка: Название проекта не может быть пустым")
+                        projectName.background.border.color = "red"
+                    } else if (!status || status === "") {
+                        console.log("Ошибка: Статус проекта не может быть пустым")
                     } else {
-                        saveProject();
-                        closePage();
-                   }
+                        saveProject()
+                        closePage()
+                    }
                 }
             }
         }

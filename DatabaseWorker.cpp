@@ -3,15 +3,14 @@
 #include <QSqlError>
 #include <QThread>
 #include <QFile>
-
+#include <QMutexLocker>
 
 DatabaseWorker::DatabaseWorker(const QString& dbPath, QObject *parent)
     : QObject(parent),
       m_dbPath(dbPath)
 {
-
-
     qDebug() << "DatabaseWorker создан (но БД ещё не инициализирована)";
+    qDebug() << "DatabaseWorker создан:" << this;
 }
 
 DatabaseWorker::~DatabaseWorker()
@@ -28,6 +27,9 @@ DatabaseWorker::~DatabaseWorker()
 
 bool DatabaseWorker::initializeDatabase()
 {
+    //QMutexLocker locker(&m_mutex);
+
+    qDebug() << "==> Вызван initializeDatabase() в DatabaseWorker";
 
     if(!db.open()) {
         qCritical() << "Ошибка при открытии БД" << db.lastError().text();
@@ -64,13 +66,12 @@ bool DatabaseWorker::initializeDatabase()
     return true;
 }
 
-QSqlDatabase &DatabaseWorker::getDatabase()
-{
-    return db;
-}
-
 void DatabaseWorker::init()
 {
+    //QMutexLocker locker(&m_mutex);
+
+    qDebug() << "==> Вызван init() в DatabaseWorker";
+
     db = QSqlDatabase::addDatabase("QSQLITE", "WorkerConnection"); // добавим имя соединения
 
     qDebug() << "Доступные драйверы:" << QSqlDatabase::drivers();
@@ -86,22 +87,29 @@ void DatabaseWorker::init()
     // Попробуем открыть базу до инициализации
     if (!db.open()) {
         qCritical() << "Ошибка открытия БД:" << db.lastError().text();
+        return;  // Это остановит дальнейшее выполнение
     } else {
         qDebug() << "Соединение открыто:" << db.isOpen();
     }
 
     if (!initializeDatabase()) {
         qCritical() << "Ошибка инициализации БД";
+        return;  // Это остановит дальнейшее выполнение
+    } else {
+        qDebug() << "Инициализация БД успешна";
     }
 
     isInitialized = true;
-    qDebug() << "DatabaseWorker: инициализация завершена";
+    qDebug() << "DatabaseWorker::init() закончен, isInitialized =" << isInitialized;
+    emit databaseInitialized();
 }
 
 
 
 void DatabaseWorker::addProject(const Project &project)
 {
+     //QMutexLocker locker(&m_mutex);
+
     if (!isInitialized) {
         QString error = "Попытка добавить проект до инициализации базы данных!";
         qDebug() << error;
@@ -163,29 +171,48 @@ void DatabaseWorker::addProject(const Project &project)
         qDebug() << "Проект добавлен в БД:" << project.getProjectName() << project.getProjectStatus();
         emit projectAdded(true, "Проект успешно добавлен.");
     }
-
 }
 
-/*
-QList<Project> DatabaseWorker::getProjects()
+
+void DatabaseWorker::getProjects()
 {
+    //QMutexLocker locker(&m_mutex);
+
+    qDebug() << "==> Вызван getProjects() в DatabaseWorker";
+
     // Создаём пустой список, в который мы будем складывать все загруженные из базы проекты.
     QList<Project> projects;
-    // Создаем запрос на извлечение из таблицы
-    QSqlQuery query("SELECT name, status FROM projects");
 
-    if(!query.exec())
-    {
-        QString err = query.lastError().text();
-        emit errorOccurred(err);
-        emit projectsReady({});
-        qDebug() << "Ошибка при получении проектов: " << query.lastError().text();
-        return {}; // возвращаем пустой список, чтобы не крашить приложение
+    if (!isInitialized) {
+        QString error = "База данных не инициализирована при попытке загрузки проектов.";
+        qCritical() << error;
+        emit errorOccurred(error);
+        emit projectsReady(projects);  // Возвращаем пустой список
+        return;
+    }
+
+    if (!db.isOpen()) {
+        QString error = "База данных закрыта при попытке загрузки проектов.";
+        qCritical() << error;
+        emit errorOccurred(error);
+        emit projectsReady(projects);  // Возвращаем пустой список
+        return;
+    }
+
+
+    // Создаем запрос на извлечение из таблицы
+    QSqlQuery query(db);
+
+    if (!query.exec("SELECT name, status FROM projects")) {
+        QString error = "Ошибка выполнения запроса SELECT: " + query.lastError().text();
+        qCritical() << error;
+        emit errorOccurred(error);
+        emit projectsReady(projects);  // Возвращаем пустой список
+        return;
     }
 
     //Начинаем обход результатов запроса
-    while(query.next())
-    {
+    while (query.next()) {
         QString name = query.value(0).toString();
         QString status = query.value(1).toString();
 
@@ -196,6 +223,6 @@ QList<Project> DatabaseWorker::getProjects()
         projects.append(project);
     }
 
-    emit projectsReady(projects);
-    return projects;
-}*/
+    qDebug() << "Получено проектов из БД:" << projects.size();
+    emit projectsReady(projects);  // Возвращаем результат через сигнал;
+}

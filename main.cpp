@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "DatabaseManager.h"
-#include "Project.h"
+#include "ProjectModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
     DatabaseManager dbManager("projects.db");  // Путь к базе данных
     // Регистрация DatabaseManager как синглтона в QML
     qmlRegisterSingletonInstance<DatabaseManager>("com.example.Database", 1, 0, "DatabaseManager", &dbManager);
+
+    qmlRegisterType<ProjectModel>("com.example.ProjectModel", 1, 0, "ProjectModel");
+
 
     const QUrl url(QStringLiteral("qrc:/QML/main.qml"));
     QObject::connect(

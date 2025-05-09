@@ -5,6 +5,7 @@ SOURCES += \
         DatabaseManager.cpp \
         DatabaseWorker.cpp \
         Project.cpp \
+        ProjectModel.cpp \
         main.cpp
 
 resources.files = main.qml 
@@ -61,6 +62,7 @@ DISTFILES += \
     QML/MenuPages/PatternsPage.qml \
     QML/MenuPages/ProjectsPage.qml \
     QML/MenuPages/Subpages/CurrentProjects.qml \
+    QML/MenuPages/Subpages/EditProject.qml \
     QML/MenuPages/Subpages/FinishedProjects.qml \
     QML/MenuPages/Subpages/NewMaterial.qml \
     QML/MenuPages/Subpages/NewProject.qml \
@@ -74,4 +76,5 @@ DISTFILES += \
 HEADERS += \
     DatabaseManager.h \
     DatabaseWorker.h \
-    Project.h
+    Project.h \
+    ProjectModel.h

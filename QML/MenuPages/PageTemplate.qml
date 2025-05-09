@@ -16,6 +16,7 @@ Page {
     property alias emptyPageImageSource: emptyPageImage.source
     property alias emptyPageText: emptyPageTxt.text
     property bool showTextTitle: false
+    property bool emptyPageVisible: true
     signal buttonClicked
 
     background: Rectangle {
@@ -47,6 +48,7 @@ Page {
             Layout.preferredHeight: root.height * 0.2
             source: ""
             opacity: 0.8
+             visible: pageTemplate.emptyPageVisible
         }
 
         Text {
@@ -67,6 +69,7 @@ Page {
             wrapMode: Text.WordWrap
             elide: Text.ElideNone
             opacity: 0.8
+            visible: pageTemplate.emptyPageVisible
         }
     }
 
