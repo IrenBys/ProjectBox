@@ -34,11 +34,17 @@ DatabaseManager::DatabaseManager(const QString &dbPath, QObject *parent)
     bool connected = connect(this, &DatabaseManager::requestLoadProjects, worker, &DatabaseWorker::getProjects, Qt::QueuedConnection);
     qDebug() << "requestLoadProjects and getProjects connect result:" << connected;
 
+    bool deleteConnected = connect(this, &DatabaseManager::requestDeleteProject, worker, &DatabaseWorker::deleteProject);
+    qDebug() << "requestDeleteProject and deleteProject connect result:" << deleteConnected;
+
     connect(worker, &DatabaseWorker::projectAdded, this, &DatabaseManager::projectAdded);
 
 
     bool readyConnected = connect(worker, &DatabaseWorker::projectsReady, this, &DatabaseManager::onProjectsReady);
     qDebug() << "projectsReady and projectsReady connect result:" << readyConnected;
+
+    bool projectDeletedConnected = connect(worker, &DatabaseWorker::projectDeleted, this, &DatabaseManager::onProjectDeleted);
+    qDebug() << "projectDeleted and onProjectDeleted connect result:" << projectDeletedConnected;
 
     bool errorConnected = connect(worker, &DatabaseWorker::errorOccurred, this, &DatabaseManager::errorOccurred);
     qDebug() << "errorOccurred and errorOccurred connect result:" << errorConnected;
@@ -87,8 +93,10 @@ void DatabaseManager::onProjectsReady(const QList<Project> &projects) {
     QVariantList variantProjects;
     for (const Project &proj : projects) {
         QVariantMap map;
+        map["id"] = proj.getProjectId();
         map["name"] = proj.getProjectName();
         map["status"] = proj.getProjectStatus();
+        qDebug() << "QVariantMap из DatabaseManager::onProjectsReady" << map;
         variantProjects.append(map);
     }
 
@@ -96,10 +104,23 @@ void DatabaseManager::onProjectsReady(const QList<Project> &projects) {
     emit projectsReadyForQml(variantProjects);  // Отправляем в QML
 }
 
+void DatabaseManager::onProjectDeleted(bool success, const QString &message) {
+    qDebug() << "==> onProjectDeleted в DatabaseManager, success:" << success << ", message:" << message;
+    emit projectDeleted(success, message);  // ← Прокидываем в QML
+}
+
 void DatabaseManager::loadProjects() {
     qDebug() << "==> Вызван loadProjects()";
     emit requestLoadProjects();
 }
+
+void DatabaseManager::deleteProject(int projectId)
+{
+    qDebug() << "==> Вызван deleteProject(int projectId) для проекта с ID" << projectId;
+    emit requestDeleteProject(projectId);
+}
+
+
 
 
 

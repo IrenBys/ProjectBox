@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import com.example.Database 1.0
 
 import "qrc:/QML"
 import "qrc:/QML/Components" as AppComponents
@@ -23,6 +24,7 @@ SubpageTemplate {
     subpageTitle: editProjectPage.projectName
 
     Component.onCompleted: {
+        console.log("projectId в EditProject:", projectId)
         console.log("projectName в EditProject:", projectName)
         console.log("projectStatus в EditProject:", projectStatus)
     }
@@ -63,7 +65,8 @@ SubpageTemplate {
                 console.log("Удалить выбрано")
                 confirmClosePopup.openWith(qsTr("Удалить проект \"" + projectName + "\"?"), function() {
                     console.log("Удаление подтверждено для проекта:", projectId)
-                    // Здесь вставь свой C++-вызов или QML-логику
+                    DatabaseManager.deleteProject(projectId);
+                    closePage();
                 })
             }
         }

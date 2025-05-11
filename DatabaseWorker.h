@@ -24,12 +24,14 @@ public:
 
 public slots:
     void getProjects();
+    void deleteProject(int projectId);
 
 
 signals:
     void projectAdded(bool success, const QString& message);
     void projectsReady(const QList<Project>& projects);
     void errorOccurred(const QString& errorMessage);
+    void projectDeleted(bool success, const QString& message);
     void databaseInitialized();
 
 private:

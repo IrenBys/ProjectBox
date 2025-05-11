@@ -58,6 +58,7 @@ PageTemplate {
                 anchors.margins: 10
 
                 Text {
+                    id: modelNameText
                     text: model.name
                     Layout.fillWidth: true
                     color: textColor
@@ -85,9 +86,13 @@ PageTemplate {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("Переход на страницу редактирования проекта " + model.name)
+                    console.log("Переход на страницу редактирования проекта " +
+                                model.id + " " +
+                                modelNameText.text + " " +
+                                modelStatusText.text)
                     openPage("qrc:/QML/MenuPages/Subpages/EditProject.qml", {
-                        projectName: model.name,
+                        projectId: model.id,
+                        projectName: modelNameText.text,
                         projectStatus: modelStatusText.text
                     });
                 }
@@ -115,6 +120,15 @@ PageTemplate {
                 emptyPageVisible = false;
             } else {
                 emptyPageVisible = true;
+            }
+        }
+        function onProjectDeleted(success, msg) {
+            console.log("===> QML получил onProjectDeleted:", success, msg);
+            if (success) {
+                console.log("Проект успешно удалён, обновляем список проектов...");
+                DatabaseManager.loadProjects();  // ← это обновит данные в модели
+            } else {
+                console.error("Ошибка при удалении проекта:", msg);
             }
         }
     }

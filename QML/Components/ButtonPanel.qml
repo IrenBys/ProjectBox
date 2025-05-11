@@ -102,6 +102,6 @@ Item {
 
     Component.onCompleted: {
         console.log("[Component.onCompleted] Инициализация панели со статусом:", selectedStatus)
-        setStatusByCode(buttonPanel.getCodeByText(statusText))
+        setStatusByCode(selectedStatus)
     }
 }

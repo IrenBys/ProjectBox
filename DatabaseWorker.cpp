@@ -144,8 +144,6 @@ void DatabaseWorker::addProject(const Project &project)
 
     }
 
-    qDebug() << "Добавление проекта:" << name << status;
-
     // Подготовка SQL-запроса для добавления проекта в базу данных
     QSqlQuery query(db);
     qDebug() << "Добавление проекта. Соединение:" << db.connectionName();
@@ -154,12 +152,10 @@ void DatabaseWorker::addProject(const Project &project)
     if (query.lastError().isValid()) {
         qCritical() << "Ошибка привязки параметра :name" << query.lastError().text();
     }
-
     query.bindValue(":s", project.getProjectStatus());
     if (query.lastError().isValid()) {
         qCritical() << "Ошибка привязки параметра :status" << query.lastError().text();
     }
-
 
     if(!query.exec())
     {
@@ -168,7 +164,10 @@ void DatabaseWorker::addProject(const Project &project)
         emit errorOccurred(err);
         qDebug() << "Ошибка при добавлении проекта: " << err;
     } else {
-        qDebug() << "Проект добавлен в БД:" << project.getProjectName() << project.getProjectStatus();
+        qDebug() << "Проект добавлен в БД:"
+                 << query.lastInsertId().toInt() << " "
+                 << project.getProjectName() << " "
+                 << project.getProjectStatus();
         emit projectAdded(true, "Проект успешно добавлен.");
     }
 }
@@ -203,7 +202,7 @@ void DatabaseWorker::getProjects()
     // Создаем запрос на извлечение из таблицы
     QSqlQuery query(db);
 
-    if (!query.exec("SELECT name, status FROM projects")) {
+    if (!query.exec("SELECT id, name, status FROM projects")) {
         QString error = "Ошибка выполнения запроса SELECT: " + query.lastError().text();
         qCritical() << error;
         emit errorOccurred(error);
@@ -213,16 +212,40 @@ void DatabaseWorker::getProjects()
 
     //Начинаем обход результатов запроса
     while (query.next()) {
-        QString name = query.value(0).toString();
-        QString status = query.value(1).toString();
+        int id = query.value(0).toInt();
+        QString name = query.value(1).toString();
+        QString status = query.value(2).toString();
 
         Project project;
+        project.setProjectId(id);
         project.setProjectName(name);
         project.setProjectStatus(status);
 
+        qDebug() << "В Databaseworker получен проект из БД:"
+                 << project.getProjectId()
+                 << project.getProjectName()
+                 << project.getProjectStatus();
         projects.append(project);
     }
 
     qDebug() << "Получено проектов из БД:" << projects.size();
     emit projectsReady(projects);  // Возвращаем результат через сигнал;
+}
+
+void DatabaseWorker::deleteProject(int projectId)
+{
+    //QMutexLocker locker(&m_mutex);
+    qDebug() << "==> Вызван deleteProject(int projectId) в DatabaseWorker для проекта с ID" << projectId;
+
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM projects WHERE id = :id");
+    query.bindValue(":id", projectId);
+
+    if (!query.exec()) {
+        emit errorOccurred("Ошибка при удалении проекта: " + query.lastError().text());
+    } else {
+        qDebug() << "Проект удалён, id =" << projectId;
+        emit projectDeleted(true, "Проект удалён");
+    }
+
 }

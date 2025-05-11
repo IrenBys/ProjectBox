@@ -9,7 +9,8 @@ class ProjectModel : public QAbstractListModel
     Q_OBJECT
 public:
     enum ProjectRole {
-        NameRole = Qt::UserRole + 1,
+        IdRole = Qt::UserRole + 1,
+        NameRole,
         StatusRole
     };
 
@@ -33,8 +34,12 @@ public:
             return QVariant();
 
         const Project &project = m_projects.at(index.row());
+        int id = project.getProjectId();
 
         switch (role) {
+        case IdRole:
+            qDebug() << "Получаем Id для модели: " << id;
+            return id;
         case NameRole:
             return project.getProjectName();
         case StatusRole:
@@ -47,6 +52,7 @@ public:
     // Регистрируем роли для QML
     QHash<int, QByteArray> roleNames() const override {
         QHash<int, QByteArray> roles;
+        roles[IdRole] = "id";
         roles[NameRole] = "name";
         roles[StatusRole] = "status";
         return roles;
@@ -54,14 +60,14 @@ public:
 
     // Метод для добавления проекта
     Q_INVOKABLE void addProject(const Project &project) {
-        //qDebug() << "Вызов метода addProject из  ProjectModel";
+        qDebug() << "Вызов метода addProject из  ProjectModel";
         beginInsertRows(QModelIndex(), m_projects.size(), m_projects.size());
         m_projects.append(project);
         endInsertRows();
     }
 
     Q_INVOKABLE void setProjects(const QList<Project> &projects) {
-        //qDebug() << "Вызов метода setProjects из  ProjectModel";
+        qDebug() << "Вызов метода setProjects из  ProjectModel";
         beginResetModel();  // Сброс модели
         m_projects = projects;
         endResetModel();    // Завершаем сброс модели
@@ -86,10 +92,13 @@ public:
         for (const QVariant &var : projectList) {
             QVariantMap map = var.toMap();
             Project project;
+            project.setProjectId(map.value("id").toInt());
             project.setProjectName(map.value("name").toString());
             project.setProjectStatus(map.value("status").toString());
             m_projects.append(project);
-        }
+            qDebug() << "QVariantMap:" << map;
+        }        
+
         endResetModel();
     }
 
