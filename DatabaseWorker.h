@@ -25,6 +25,8 @@ public:
 public slots:
     void getProjects();
     void deleteProject(int projectId);
+    void editProject(const Project& project);
+    void getProjectById(int projectId);
 
 
 signals:
@@ -32,7 +34,9 @@ signals:
     void projectsReady(const QList<Project>& projects);
     void errorOccurred(const QString& errorMessage);
     void projectDeleted(bool success, const QString& message);
+    void projectEdited(bool success, const QString& message);
     void databaseInitialized();
+    void singleProjectReady(const Project &project);
 
 private:
     QString m_dbPath;

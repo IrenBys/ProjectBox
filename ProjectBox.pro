@@ -71,6 +71,7 @@ DISTFILES += \
     QML/MenuPages/Subpages/SubpageTemplate.qml \
     QML/MenuPages/ToolsPage.qml \
     QML/main.qml \
+    Qt_AddMethod_Template.md \
     main.qml
 
 HEADERS += \

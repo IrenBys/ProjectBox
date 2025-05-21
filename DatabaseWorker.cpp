@@ -172,7 +172,6 @@ void DatabaseWorker::addProject(const Project &project)
     }
 }
 
-
 void DatabaseWorker::getProjects()
 {
     //QMutexLocker locker(&m_mutex);
@@ -249,3 +248,79 @@ void DatabaseWorker::deleteProject(int projectId)
     }
 
 }
+
+void DatabaseWorker::editProject(const Project& project) {
+    qDebug() << "==> Вызван editProject для проекта с ID" << project.getProjectId();
+
+    if (!db.isOpen()) {
+        qWarning() << "Ошибка: база данных не открыта!";
+        emit projectEdited(false, "База данных не открыта");
+        return;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("UPDATE projects SET name = :name, status = :status WHERE id = :id");
+    query.bindValue(":name", project.getProjectName());
+    query.bindValue(":status", project.getProjectStatus());
+    query.bindValue(":id", project.getProjectId());
+
+    if (!query.exec()) {
+        qWarning() << "Ошибка SQL:" << query.lastQuery();
+        qWarning() << "Параметры:" << query.boundValues();
+        qWarning() << "Ошибка при редактировании проекта:" << query.lastError().text();
+        emit projectEdited(false, "Ошибка при редактировании проекта: " + query.lastError().text());
+    } else if (query.numRowsAffected() == 0) {
+        qWarning() << "Запрос выполнен, но строки не были изменены (возможно, проект с ID не найден)";
+        emit projectEdited(false, "Проект с таким ID не найден или данные совпадают");
+    } else {
+        qDebug() << "Проект успешно отредактирован:"
+                 << project.getProjectId() << project.getProjectStatus() << project.getProjectName();
+        emit projectEdited(true, "Проект успешно отредактирован");
+    }
+}
+
+void DatabaseWorker::getProjectById(int projectId)
+{
+    qDebug() << "==> Вызван getProjectById(int projectId) в DatabaseWorker c projectId: " << projectId;
+
+    if(!isInitialized) {
+        QString error = "База данных не инициализирована при попытке загрузки проекта";
+        qCritical() << error;
+        emit errorOccurred(error);
+        return;
+    }
+
+    if(!db.isOpen()) {
+        QString error = "База данных закрыта при попытке загрузки проетка";
+        qCritical() << error;
+        emit errorOccurred(error);
+        return;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT id, name, status FROM projects WHERE id = :id");
+    query.bindValue(":id", projectId);
+
+    if (!query.exec()) {
+        QString error = "Ошибка выполнения запроса SELECT: " + query.lastError().text();
+        qCritical() << error;
+        emit errorOccurred(error);
+        return;
+    }
+
+    if (query.next()) {
+        Project project;
+        project.setProjectId(query.value(0).toInt());
+        project.setProjectName(query.value(1).toString());
+        project.setProjectStatus(query.value(2).toString());
+
+        qDebug() << "Проект найден в DatabaseWorker:" << project.getProjectId() << project.getProjectName();
+
+        emit singleProjectReady(project);
+    } else {
+        QString error = "Проект с ID " + QString::number(projectId) + " не найден.";
+        qWarning() << error;
+        emit errorOccurred(error);
+    }
+}
+

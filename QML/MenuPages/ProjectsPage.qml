@@ -131,5 +131,14 @@ PageTemplate {
                 console.error("Ошибка при удалении проекта:", msg);
             }
         }
+        function onProjectEdited(success, msg) {
+            console.log("===> QML получил onProjectEdited:", success, msg);
+            if (success) {
+                console.log("Проект успешно отредактирован, обновляем проект...");
+                DatabaseManager.loadProjects();  // ← это обновит данные в модели
+            } else {
+                console.error("Ошибка при редактировании проекта:", msg);
+            }
+        }
     }
 }

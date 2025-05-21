@@ -43,6 +43,15 @@ SubpageTemplate {
         optionsMenu.popup(x, y)  // Показываем меню
     }
 
+    // Функция для обновления данных проекта (добавь её сюда)
+    function updateProjectData(id, name, status) {
+        projectId = id
+        projectName = name
+        projectStatus = status
+        subpageTitle = name  // Обновляем заголовок страницы
+        console.log("Данные проекта обновлены:", projectId, projectName, projectStatus)
+    }
+
     Menu {
         id: optionsMenu
 
@@ -54,7 +63,10 @@ SubpageTemplate {
                 openPage("qrc:/QML/MenuPages/Subpages/NewProject.qml", {
                     projectId: projectId,
                     initialProjectName: projectName,
-                    initialProjectStatus: projectStatus
+                    initialProjectStatus: projectStatus,
+                    onSaveCallback: function(updatedId, updatedName, updatedStatus) {
+                        editProjectPage.updateProjectData(updatedId, updatedName, updatedStatus)
+                    }
                 })
             }
         }

@@ -12,11 +12,18 @@ SubpageTemplate {
     objectName: "NewProject"
     subpageTitle: "Новый проект"
 
-    property string projectId: ""
+    property int projectId: -1
     property string initialProjectName: ""
     property string initialProjectStatus: ""
 
+    // Callback, который может быть передан из editProject
+    property var onSaveCallback: null
+
     Component.onCompleted: {
+        if (typeof projectId === "string") {
+            projectId = parseInt(projectId)
+        }
+
         if (initialProjectName !== "") {
             projectName.text = initialProjectName
         }
@@ -35,8 +42,18 @@ SubpageTemplate {
         const name = projectName.text.trim()
         const status = projectStatus.selectedStatus
 
-        console.log("Проект " + name + " сохранен в статусе: " + status)
-        DatabaseManager.addProject(name, status)
+        if (projectId === -1) {
+            console.log("Создание проекта:", name, status)
+            DatabaseManager.addProject(name, status)
+        } else {
+            console.log("Редактирование проекта:", projectId, name, status)
+            DatabaseManager.editProjectFromQml(projectId, name, status)
+
+            // Вызов callback, если он передан, чтобы обновить editProject
+            if (typeof onSaveCallback === "function") {
+                onSaveCallback(projectId, name, status)  // <--- вызываем функцию обновления
+            }
+        }
     }
 
     ScrollView {
