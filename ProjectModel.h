@@ -11,7 +11,8 @@ public:
     enum ProjectRole {
         IdRole = Qt::UserRole + 1,
         NameRole,
-        StatusRole
+        StatusRole,
+        NotesRole
     };
 
     explicit ProjectModel(QObject* parent = nullptr) : QAbstractListModel(parent) {}

@@ -80,7 +80,6 @@ DatabaseManager::~DatabaseManager()
     worker->deleteLater();
 }
 
-
 void DatabaseManager::onDatabaseInitialized() {
     qDebug() << "База данных инициализирована, теперь можно работать с проектами.";
     // Теперь загружаем проекты только после полной инициализации базы данных
@@ -94,12 +93,7 @@ void DatabaseManager::onProjectsReady(const QList<Project> &projects) {
     // Дополнительно преобразуем для QML
     QVariantList variantProjects;
     for (const Project &proj : projects) {
-        QVariantMap map;
-        map["id"] = proj.getProjectId();
-        map["name"] = proj.getProjectName();
-        map["status"] = proj.getProjectStatus();
-        qDebug() << "QVariantMap из DatabaseManager::onProjectsReady" << map;
-        variantProjects.append(map);
+        variantProjects.append(proj.toMap());
     }
 
     qDebug() << "Дополнительно преобразуем для QML: " << variantProjects.data();
@@ -120,16 +114,11 @@ void DatabaseManager::onProjectEdited(bool success, const QString &message)
 void DatabaseManager::onSingleProjectReady(const Project &project)
 {
     qDebug() << "==> onSingleProjectReady в DatabaseManager. Получен проект:" << project.getProjectId();
-
-    QVariantMap map;
-    map["id"] = project.getProjectId();
-    map["name"] = project.getProjectName();
-    map["status"] = project.getProjectStatus();
-
-    emit singleProjectReadyForQml(map);  // если нужно пробросить в QML
+    emit singleProjectReadyForQml(project.toMap());  // если нужно пробросить в QML
 }
 
-void DatabaseManager::addProject(const QString &name, const QString &status)
+
+void DatabaseManager::addProject(const QString &name, const QString &status, const QString &notes)
 {
     qDebug() << "Добавление проекта в БД через менеджер:" << name << status;
 
@@ -137,6 +126,7 @@ void DatabaseManager::addProject(const QString &name, const QString &status)
     Project project;
     project.setProjectName(name);
     project.setProjectStatus(status);
+    project.setProjectNotes(notes);
 
     // Отправляем во внешний мир (например, в DatabaseWorker)
     emit requestAddProject(project);
@@ -153,12 +143,13 @@ void DatabaseManager::deleteProject(int projectId)
     emit requestDeleteProject(projectId);
 }
 
-void DatabaseManager::editProjectFromQml(int id, const QString &name, const QString &status)
+void DatabaseManager::editProjectFromQml(int id, const QString &name, const QString &status, const QString &notes)
 {
     Project p;
     p.setProjectId(id);
     p.setProjectName(name);
     p.setProjectStatus(status);
+    p.setProjectNotes(notes);
     editProject(p);
 }
 

@@ -15,6 +15,7 @@ SubpageTemplate {
     property int projectId: -1
     property string projectName: ""
     property string projectStatus: ""
+    property string projectNotes: ""
 
     property int pageContentWidth: root.width - 40
 
@@ -44,10 +45,11 @@ SubpageTemplate {
     }
 
     // Функция для обновления данных проекта (добавь её сюда)
-    function updateProjectData(id, name, status) {
+    function updateProjectData(id, name, status, notes) {
         projectId = id
         projectName = name
         projectStatus = status
+        projectNotes = notes
         subpageTitle = name  // Обновляем заголовок страницы
         console.log("Данные проекта обновлены:", projectId, projectName, projectStatus)
     }
@@ -64,8 +66,9 @@ SubpageTemplate {
                     projectId: projectId,
                     initialProjectName: projectName,
                     initialProjectStatus: projectStatus,
-                    onSaveCallback: function(updatedId, updatedName, updatedStatus) {
-                        editProjectPage.updateProjectData(updatedId, updatedName, updatedStatus)
+                    initialProjectNotes: projectNotes,
+                    onSaveCallback: function(updatedId, updatedName, updatedStatus, updatedNotes) {
+                        editProjectPage.updateProjectData(updatedId, updatedName, updatedStatus, updatedNotes)
                     }
                 })
             }
@@ -138,6 +141,35 @@ SubpageTemplate {
                 }
             }
 
+            Label {
+                id: notesLabel
+                width: pageContentWidth
+                text: "Заметки"
+                color: textColor
+                font.pixelSize: 12
+                font.family: "Roboto"
+                font.weight: Font.DemiBold
+                elide: "ElideRight"
+            }
+
+            Rectangle {
+                id: notesField
+                width: pageContentWidth
+                height: Math.max(notesText.implicitHeight + 20, 80)
+                color: "#f0f0f0"
+                radius: 6
+
+                Text {
+                    id: notesText
+                    anchors.margins: 10
+                    anchors.fill: parent
+                    text: projectNotes
+                    wrapMode: Text.WordWrap
+                    color: "#333"
+                    font.pixelSize: 12
+                    font.family: "Roboto"
+                }
+            }
         }
     }
 }

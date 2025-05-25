@@ -21,10 +21,10 @@ public:
 
 
     // Методы для взаимодействия с воркером
-    Q_INVOKABLE void addProject(const QString &name, const QString &status);
+    Q_INVOKABLE void addProject(const QString &name, const QString &status, const QString &notes);
     Q_INVOKABLE void loadProjects();
     Q_INVOKABLE void deleteProject(int projectId);
-    Q_INVOKABLE void editProjectFromQml(int id, const QString &name, const QString &status);
+    Q_INVOKABLE void editProjectFromQml(int id, const QString &name, const QString &status, const QString &notes);
     void editProject(const Project& project);
     Q_INVOKABLE void loadProjectById(int id);
 
@@ -56,6 +56,7 @@ private slots:
 private:
     QThread workerThread;
     DatabaseWorker* worker = nullptr;
+
 };
 
 #endif // DATABASEMANAGER_H

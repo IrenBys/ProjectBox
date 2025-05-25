@@ -15,6 +15,7 @@ SubpageTemplate {
     property int projectId: -1
     property string initialProjectName: ""
     property string initialProjectStatus: ""
+    property string initialProjectNotes: ""
 
     // Callback, который может быть передан из editProject
     property var onSaveCallback: null
@@ -32,6 +33,9 @@ SubpageTemplate {
             projectStatus.selectedStatus = initialProjectStatus
         }
 
+        if (initialProjectNotes !== "") {
+            projectNotes.text = initialProjectNotes
+        }
         console.log("NewProject.qml: параметры загружены", projectId, initialProjectName, initialProjectStatus)
     }
 
@@ -41,17 +45,18 @@ SubpageTemplate {
     function saveProject() {
         const name = projectName.text.trim()
         const status = projectStatus.selectedStatus
+        const notes = projectNotes.text.trim()
 
         if (projectId === -1) {
-            console.log("Создание проекта:", name, status)
-            DatabaseManager.addProject(name, status)
+            console.log("Создание проекта:", name, status, notes)
+            DatabaseManager.addProject(name, status, notes)
         } else {
-            console.log("Редактирование проекта:", projectId, name, status)
-            DatabaseManager.editProjectFromQml(projectId, name, status)
+            console.log("Редактирование проекта:", projectId, name, status, notes)
+            DatabaseManager.editProjectFromQml(projectId, name, status, notes)
 
             // Вызов callback, если он передан, чтобы обновить editProject
             if (typeof onSaveCallback === "function") {
-                onSaveCallback(projectId, name, status)  // <--- вызываем функцию обновления
+                onSaveCallback(projectId, name, status, notes)  // <--- вызываем функцию обновления
             }
         }
     }
@@ -157,7 +162,6 @@ SubpageTemplate {
                     anchors.fill: parent
                     anchors.topMargin: 20
                     wrapMode: TextArea.Wrap
-                    placeholderText: (!focus && text.length === 0) ? "Введите заментки" : ""
                     placeholderTextColor: textColor
                     color: textColor
 

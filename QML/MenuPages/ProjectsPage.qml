@@ -93,7 +93,8 @@ PageTemplate {
                     openPage("qrc:/QML/MenuPages/Subpages/EditProject.qml", {
                         projectId: model.id,
                         projectName: modelNameText.text,
-                        projectStatus: modelStatusText.text
+                        projectStatus: modelStatusText.text,
+                        projectNotes: model.notes
                     });
                 }
             }

@@ -25,6 +25,8 @@ QVariant ProjectModel::data(const QModelIndex &index, int role) const {
         return project.getProjectName();
     case StatusRole:
         return project.getProjectStatus();
+    case NotesRole:
+        return project.getProjectNotes();
     default:
         return QVariant();
     }
@@ -35,6 +37,7 @@ QHash<int, QByteArray> ProjectModel::roleNames() const {
     roles[IdRole] = "id";
     roles[NameRole] = "name";
     roles[StatusRole] = "status";
+    roles[NotesRole] = "notes";
     return roles;
 }
 
@@ -72,6 +75,7 @@ void ProjectModel::loadProjectsFromVariant(const QVariant &variantProjects) {
         project.setProjectId(map.value("id").toInt());
         project.setProjectName(map.value("name").toString());
         project.setProjectStatus(map.value("status").toString());
+        project.setProjectNotes(map.value("notes").toString());
         m_projects.append(project);
         qDebug() << "QVariantMap:" << map;
     }
@@ -85,7 +89,7 @@ void ProjectModel::updateProject(const Project &project) {
             m_projects[i] = project;
 
             QModelIndex index = createIndex(i, 0);
-            emit dataChanged(index, index, {IdRole, NameRole, StatusRole});
+            emit dataChanged(index, index, {IdRole, NameRole, StatusRole, NotesRole});
             qDebug() << "Проект обновлён в модели: ID" << project.getProjectId();
             return;
         }

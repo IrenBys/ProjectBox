@@ -45,13 +45,15 @@ bool DatabaseWorker::initializeDatabase()
         CREATE TABLE IF NOT EXISTS projects (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
-            status TEXT NOT NULL
+            status TEXT NOT NULL,
+            notes TEXT DEFAULT ''
         )
     )";
 
     /* id       INTEGER PRIMARY KEY AUTOINCREMENT   Уникальный ID проекта, автоувеличивается
      * name     TEXT NOT NULL UNIQUE                Название проекта, уникальное
      * status   TEXT NOT NULL                       Статус проекта
+     * notes TEXT DEFAULT ''                        Заметки
     */
 
 
@@ -147,7 +149,7 @@ void DatabaseWorker::addProject(const Project &project)
     // Подготовка SQL-запроса для добавления проекта в базу данных
     QSqlQuery query(db);
     qDebug() << "Добавление проекта. Соединение:" << db.connectionName();
-    query.prepare("INSERT INTO projects(name, status) VALUES (:n, :s)");
+    query.prepare("INSERT INTO projects(name, status, notes) VALUES (:n, :s, :notes)");
     query.bindValue(":n", project.getProjectName());
     if (query.lastError().isValid()) {
         qCritical() << "Ошибка привязки параметра :name" << query.lastError().text();
@@ -156,6 +158,7 @@ void DatabaseWorker::addProject(const Project &project)
     if (query.lastError().isValid()) {
         qCritical() << "Ошибка привязки параметра :status" << query.lastError().text();
     }
+    query.bindValue(":notes", project.getProjectNotes());
 
     if(!query.exec())
     {
@@ -201,7 +204,7 @@ void DatabaseWorker::getProjects()
     // Создаем запрос на извлечение из таблицы
     QSqlQuery query(db);
 
-    if (!query.exec("SELECT id, name, status FROM projects")) {
+    if (!query.exec("SELECT id, name, status, notes FROM projects")) {
         QString error = "Ошибка выполнения запроса SELECT: " + query.lastError().text();
         qCritical() << error;
         emit errorOccurred(error);
@@ -214,11 +217,13 @@ void DatabaseWorker::getProjects()
         int id = query.value(0).toInt();
         QString name = query.value(1).toString();
         QString status = query.value(2).toString();
+        QString notes  = query.value(3).toString();
 
         Project project;
         project.setProjectId(id);
         project.setProjectName(name);
         project.setProjectStatus(status);
+        project.setProjectNotes(notes);
 
         qDebug() << "В Databaseworker получен проект из БД:"
                  << project.getProjectId()
@@ -259,10 +264,11 @@ void DatabaseWorker::editProject(const Project& project) {
     }
 
     QSqlQuery query(db);
-    query.prepare("UPDATE projects SET name = :name, status = :status WHERE id = :id");
+    query.prepare("UPDATE projects SET name = :name, status = :status, notes = :notes WHERE id = :id");
     query.bindValue(":name", project.getProjectName());
     query.bindValue(":status", project.getProjectStatus());
     query.bindValue(":id", project.getProjectId());
+    query.bindValue(":notes", project.getProjectNotes());
 
     if (!query.exec()) {
         qWarning() << "Ошибка SQL:" << query.lastQuery();
@@ -298,7 +304,7 @@ void DatabaseWorker::getProjectById(int projectId)
     }
 
     QSqlQuery query(db);
-    query.prepare("SELECT id, name, status FROM projects WHERE id = :id");
+    query.prepare("SELECT id, name, status, notes FROM projects WHERE id = :id");
     query.bindValue(":id", projectId);
 
     if (!query.exec()) {
@@ -313,6 +319,7 @@ void DatabaseWorker::getProjectById(int projectId)
         project.setProjectId(query.value(0).toInt());
         project.setProjectName(query.value(1).toString());
         project.setProjectStatus(query.value(2).toString());
+        project.setProjectNotes(query.value(3).toString());
 
         qDebug() << "Проект найден в DatabaseWorker:" << project.getProjectId() << project.getProjectName();
 
