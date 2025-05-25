@@ -135,6 +135,38 @@ SubpageTemplate {
                 }
             }
 
+            Label {
+                text: "Заметки"
+                width: pageContentWidth
+                color: textColor
+                font.pixelSize: 12
+                font.family: "Roboto"
+                font.weight: Font.DemiBold
+            }
+
+            Rectangle {
+                width: pageContentWidth
+                height: Math.max(projectNotes.contentHeight + 30, 100)
+                color: backgroundColor
+                border.color: textColor
+                border.width: 1
+                radius: 6
+
+                TextArea {
+                    id: projectNotes
+                    anchors.fill: parent
+                    anchors.topMargin: 20
+                    wrapMode: TextArea.Wrap
+                    placeholderText: (!focus && text.length === 0) ? "Введите заментки" : ""
+                    placeholderTextColor: textColor
+                    color: textColor
+
+                    font.pixelSize: 12
+                    font.family: "Roboto"
+                    background: null  // отключаем дефолтный фон
+                }
+            }
+
             AppComponents.PageButton {
                 id: saveNewButton
                 height: 64
